@@ -63,7 +63,7 @@ def calculate_profit(combinations_lists, l_data_csv):
     """ Fonction qui permet de calculer les bénéfices de l'ensemble des combinaisons d'une liste selectionnée.
         La fonction récupère au fur et à mesure le bénéfice le plus haut, à la fin elle retourne le bénefice le plus
         haut et la combinaison associée.
-    
+
     :param: combinations_lists
     :param: l_data_csv
     :return: [best_combination, [total_profit]]
@@ -95,11 +95,31 @@ def calculate_profit(combinations_lists, l_data_csv):
     return [best_combination, [total_profit]]
 
 
+def show_result(f_result, l_data_csv):
+    """ Fonction qui permet d'afficher la liste des actions selectionnées, le coût total et le bénéfice.
+
+    :param: f_result
+    :param: l_data_csv
+    """
+    total_action = 0
+    print("Liste des actions selectionnées:")
+    select_combination_list = f_result[0]
+    select_result_profit = f_result[1]
+    for single_action in select_combination_list:
+        single_action -= 1
+        s_action = l_data_csv[single_action]
+        total_action += int(s_action['CoutParAction'])
+        print(s_action)
+    print("Total des actions:", total_action)
+    print("Total des bénéfices:", select_result_profit[0])
+
+
 list_numbers = list(range(1, 21))
 list_data_csv = get_data_csv()
 news_lists_combinations = generate_combinations(list_numbers)
 n_combinations_lists = create_news_combinations_lists(news_lists_combinations, list_data_csv)
 final_result = calculate_profit(n_combinations_lists, list_data_csv)
-print(final_result)
+show_result(final_result, list_data_csv)
+
 
 
