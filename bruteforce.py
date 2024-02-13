@@ -2,6 +2,7 @@ import csv
 import os
 
 path = os.getcwd()
+MAX = 500
 
 
 def get_data_csv():
@@ -35,8 +36,32 @@ def generate_combinations(l_numbers):
     return list_combinations
 
 
+def create_news_combinations_lists(l_combinations, l_data_csv):
+    """ Fonction qui permet de créer une nouvelle liste de combinaison.
+        Elle calcule le coût de l'action dans chaque liste de combinaison.
+        Si le calcul est inférieur ou égal à 500, alors la combinaison est enregistrée dans la nouvelle liste permettant
+        ainsi d'écarter les combinaisons inutiles.
+
+    :param l_combinations:
+    :param l_data_csv:
+    :return: news_combinations_lists
+    """
+    news_combinations_lists = []
+    for single_combinations in l_combinations:
+        actions_total_buy = 0
+        for s_combinations in single_combinations:
+            s_combinations -= 1
+            action_select = l_data_csv[s_combinations]
+            select_cost_action = action_select['CoutParAction']
+            actions_total_buy += int(select_cost_action)
+        if actions_total_buy <= MAX:
+            news_combinations_lists.append(single_combinations)
+    return news_combinations_lists
+
+
 list_numbers = list(range(1, 21))
 list_data_csv = get_data_csv()
-list_combination = generate_combinations(list_numbers)
-
+news_lists_combinations = generate_combinations(list_numbers)
+n_combinations_lists = create_news_combinations_lists(news_lists_combinations, list_data_csv)
+print(n_combinations_lists)
 
