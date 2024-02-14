@@ -114,8 +114,9 @@ def show_result(f_result, l_data_csv):
     print("Total des bénéfices:", select_result_profit[0])
 
 
-list_numbers = list(range(1, 21))
 list_data_csv = get_data_csv()
+quantity_data_csv = len(list_data_csv) + 1
+list_numbers = list(range(1, quantity_data_csv))
 news_lists_combinations = generate_combinations(list_numbers)
 n_combinations_lists = create_news_combinations_lists(news_lists_combinations, list_data_csv)
 final_result = calculate_profit(n_combinations_lists, list_data_csv)
