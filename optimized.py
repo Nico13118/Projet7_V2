@@ -25,15 +25,14 @@ def generate_combinations(inf_data_csv):
     total_purchase_action = 0
     best_combinations = []
     length = len(inf_data_csv)
-    list_data1 = list(range(0, length))
-    for ll in list(range(1, length)):  # indice de 0 à (20 exclus)
+    list_data1 = list(range(0, length))  # indice de 0 à (20 exclus)
+    for ll in list(range(1, length)):
         list_data2 = combinations(list_data1, ll)
         for i in list_data2:
-            select_tuple_i_left = i[:1]
-            select_tuple_i_left = select_tuple_i_left[0]
             info_i = len(i)
-
             if info_i == 1:  # si info_i contient qu'une seule valeur
+                select_tuple_i_left = i[:1]
+                select_tuple_i_left = select_tuple_i_left[0]
                 select_action = inf_data_csv[select_tuple_i_left]
                 select_purchase_action = int(select_action['CoutParAction'])
                 select_profit = float(select_action['PourcentageBenefice'])
