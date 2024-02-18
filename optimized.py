@@ -65,8 +65,19 @@ def generate_combinations(inf_data_csv):
     return [best_combinations, total_profit, total_purchase_action]
 
 
+def show_result(b_result):
+    select_combinations = b_result[0]
+    select_profit = b_result[1]
+    select_purchase_action = b_result[2]
+    for combination in select_combinations:
+        print(combination['NomAction'], ":", combination['CoutParAction'], ":", combination['PourcentageBenefice'])
+    print("Total des achats d'actions:", select_purchase_action)
+    print("Total des bénéfices:", select_profit)
+
+
 info_data_csv = get_data_csv()
-generate_combinations(info_data_csv)
+best_result = generate_combinations(info_data_csv)
+show_result(best_result)
 end_time = time.time()
 result = end_time - start_time
 print("Temps d'exécution du code:", result, "secondes.")
