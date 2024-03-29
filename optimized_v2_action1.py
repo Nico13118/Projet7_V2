@@ -1,6 +1,7 @@
 import csv
 import os
 import time
+from numba import jit
 
 path = os.getcwd()
 start_time = time.time()
@@ -75,6 +76,57 @@ def delete_identical_number(data4):
         else:
             new_list.append(data1)
     return new_list
+
+
+@jit
+def create_modify_table(pm, n, price, tt_benefice):
+    """
+    Fonction qui permet de créer un tableau à deux dimensions
+    les données sont ensuites calculées et placées dans le tableau selon leurs valeurs
+
+    """
+    # Créer un tableau à deux dimensions pour stocker les résultats intermédiaires
+    t = [[0 for x in range(pm + 1)] for x in range(n + 1)]
+    # Parcourir le tableau et calculer les résultats intermédiaires
+    for i in range(n + 1):
+        for p in range(pm + 1):
+            if i == 0 or p == 0:
+                t[i][p] = 0
+            elif price[i - 1] <= p:
+                t[i][p] = max(tt_benefice[i - 1] + t[i - 1][p - price[i - 1]], t[i - 1][p])
+            else:
+                t[i][p] = t[i - 1][p]
+    return t
+
+
+def search_show_result(data5):
+    """
+    Fonction qui recherche les actions selon les informations dans le tableau puis affiche le résultat
+    """
+    pm = PRICE_MAX * 100
+    n = len(data5)
+    price = [int(float(c['price']) * 100) for c in data5]
+    tt_benefice = [float(c['total_benefice']) for c in data5]
+
+    t = create_modify_table(pm, n, price, tt_benefice)
+
+    # Trouver la liste d'actions sélectionnées en remontant le tableau à partir de la dernière cellule
+    selected_actions = []
+    p = pm
+    i = n
+    while i > 0 and p > 0:
+        if t[i][p] != t[i - 1][p]:
+            selected_actions.append(data5[i - 1])
+            p -= price[i - 1]
+        i -= 1
+    # Afficher les résultats
+    cost = sum([float(a['price']) for a in selected_actions])
+    benefit = sum([float(a['total_benefice']) for a in selected_actions])
+    print("Coût d'achat:", cost)
+    print("Bénéfice:", benefit)
+    print("Liste des actions:")
+    for a in selected_actions:
+        print(f"{a['name']}: Coût: {a['price']} : Pourcentage: {a['profit']} : bénéfices: {a['total_benefice']}")
 
 
 list_csv1 = get_data_csv()
