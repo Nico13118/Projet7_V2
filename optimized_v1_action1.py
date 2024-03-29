@@ -77,7 +77,53 @@ def delete_identical_number(data4):
     return new_list
 
 
+def generate_best_combinations(data5):
+    """
+    5)
+    Fonction qui permet de créer un tableau à deux dimensions
+    les données de data5 sont ensuites calculées et placées dans le tableau selon leurs valeurs
+    une fois trerminé, une boucle remonte les listes en partant de la fin et selectionne l'action qui correspond
+    puis affiche le résultat.
+    """
+    pm = PRICE_MAX * 100
+    n = len(data5)
+    price = [int(float(c['price']) * 100) for c in data5]
+    tt_benefice = [float(c['total_benefice']) for c in data5]
+
+    # Créer un tableau à deux dimensions pour stocker les résultats intermédiaires
+    t = [[0 for x in range(pm + 1)] for x in range(n + 1)]
+    # Parcourir le tableau et calculer les résultats intermédiaires
+    for i in range(n + 1):
+        for p in range(pm + 1):
+            if i == 0 or p == 0:
+                t[i][p] = 0
+            elif price[i - 1] <= p:
+                t[i][p] = max(tt_benefice[i - 1] + t[i - 1][p - price[i - 1]], t[i - 1][p])
+            else:
+                t[i][p] = t[i - 1][p]
+
+    # Trouver la liste d'actions sélectionnées en remontant le tableau à partir de la dernière cellule
+    selected_actions = []
+    p = pm
+    i = n
+    while i > 0 and p > 0:
+        if t[i][p] != t[i - 1][p]:
+            selected_actions.append(data5[i - 1])
+            p -= price[i - 1]
+        i -= 1
+    # Afficher les résultats
+    cost = sum([float(a['price']) for a in selected_actions])
+    benefit = sum([float(a['total_benefice']) for a in selected_actions])
+    print("Coût d'achat:", cost)
+    print("Bénéfice:", benefit)
+    print("Liste des actions:")
+    for a in selected_actions:
+        print(f"{a['name']}: Coût: {a['price']} : Pourcentage: {a['profit']} : bénéfices: {a['total_benefice']}")
+
+
 list_csv1 = get_data_csv()
 list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
+list_csv5 = delete_identical_number(list_csv4)
+generate_best_combinations(list_csv5)
