@@ -29,5 +29,20 @@ def modify_list_csv(data1):
     return new_list
 
 
+def add_value_csv(data2):
+    """
+    3)
+    Fonction qui calcul et ajoute des valeurs dans le champ total_benefice
+    """
+    for data_csv in data2:
+
+        value_price = float(data_csv['price'])
+        pourcentage = float(data_csv['profit'])
+        data_csv['total_benefice'] = value_price * (pourcentage / 100)
+
+    return data2
+
+
 list_csv1 = get_data_csv()
 list_csv2 = modify_list_csv(list_csv1)
+list_csv3 = add_value_csv(list_csv2)
