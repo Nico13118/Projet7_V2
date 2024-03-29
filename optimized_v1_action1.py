@@ -127,3 +127,7 @@ list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = delete_identical_number(list_csv4)
 generate_best_combinations(list_csv5)
+
+end_time = time.time()
+result = end_time - start_time
+print(f"Temps d'exécution : {result} seconde(s)")
