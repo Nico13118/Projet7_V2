@@ -43,6 +43,18 @@ def add_value_csv(data2):
     return data2
 
 
+def sort_list_data(data3):
+    """
+    4)
+    Fonction qui trie la liste
+    reverse=False = Petit au plus grand
+    """
+    list_sort = sorted(data3, key=lambda x: float(x['price']), reverse=True)
+
+    return list_sort
+
+
 list_csv1 = get_data_csv()
 list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
+list_csv4 = sort_list_data(list_csv3)
