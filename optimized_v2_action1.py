@@ -10,7 +10,8 @@ PRICE_MAX = 500
 
 def get_data_csv():
     """
-    Fonction qui permet d'extraire les données du fichier Actions1.csv
+    Fonction qui permet d'extraire les données du fichier Actions.csv.
+    Function that extracts data from the Actions.csv file.
     """
     csv_path = os.path.join(path, "Actions1.csv")
     with open(csv_path, newline='') as csvfile:
@@ -22,7 +23,8 @@ def get_data_csv():
 def modify_list_csv(data1):
     """
     2)
-    Fonction qui garde les valeurs de price superieur à 1.
+    Fonction qui garde les valeurs de price supérieures à 1.
+    Function that keeps values of price greater than 1.
     """
     new_list = [c for c in data1 if float(c['price']) > 1]
     return new_list
@@ -31,7 +33,8 @@ def modify_list_csv(data1):
 def add_value_csv(data2):
     """
     3)
-    Fonction qui calcul et ajoute des valeurs dans le champ total_benefice
+    Fonction qui calcule et ajoute des valeurs dans le champ total_bénéfice.
+    Function that calculates and adds values to the total_profit field.
     """
     for data_csv in data2:
 
@@ -45,8 +48,8 @@ def add_value_csv(data2):
 def sort_list_data(data3):
     """
     4)
-    Fonction qui trie la liste
-    reverse=False = Petit au plus grand
+    Fonction qui trie la liste.
+    Function that sorts the list.
     """
     list_sort = sorted(data3, key=lambda x: float(x['price']), reverse=True)
 
@@ -56,8 +59,10 @@ def sort_list_data(data3):
 def delete_identical_number(data4):
     """
     5)
-    Fonction qui compare les valeurs en double pour le champ price et
-    garde la valeur la plus haute
+    Fonction qui compare les valeurs en double pour le champ price et garde la valeur la
+    plus haute de profit.
+    Function that compares duplicate values for the price field and keeps the highest
+    profit value.
     """
     new_list = []
     for data1 in data4:
@@ -81,13 +86,12 @@ def delete_identical_number(data4):
 @jit
 def create_modify_table(pm, n, price, tt_benefice):
     """
-    Fonction qui permet de créer un tableau à deux dimensions
-    les données sont ensuites calculées et placées dans le tableau selon leurs valeurs
-
+    Fonction qui permet de créer un tableau à deux dimensions, les données sont ensuite
+    calculées et placées dans le tableau selon leur valeur.
+    Function that creates a two-dimensional array, data is then calculated and placed in
+    the array according to their value.
     """
-    # Créer un tableau à deux dimensions pour stocker les résultats intermédiaires
     t = [[0 for x in range(pm + 1)] for x in range(n + 1)]
-    # Parcourir le tableau et calculer les résultats intermédiaires
     for i in range(n + 1):
         for p in range(pm + 1):
             if i == 0 or p == 0:
@@ -101,7 +105,10 @@ def create_modify_table(pm, n, price, tt_benefice):
 
 def search_show_result(data5):
     """
-    Fonction qui recherche les actions selon les informations dans le tableau puis affiche le résultat
+    Fonction qui recherche les actions selon les informations dans le tableau puis affiche
+    le résultat.
+    Function that searches for stocks based on information in the array and displays
+    the result.
     """
     pm = PRICE_MAX * 100
     n = len(data5)
@@ -109,8 +116,6 @@ def search_show_result(data5):
     tt_benefice = [float(c['total_benefice']) for c in data5]
 
     t = create_modify_table(pm, n, price, tt_benefice)
-
-    # Trouver la liste d'actions sélectionnées en remontant le tableau à partir de la dernière cellule
     selected_actions = []
     p = pm
     i = n
@@ -134,6 +139,7 @@ list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = delete_identical_number(list_csv4)
+search_show_result(list_csv5)
 
 
 end_time = time.time()
