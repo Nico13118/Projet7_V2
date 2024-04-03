@@ -13,7 +13,7 @@ def get_data_csv():
 
     : return : list_actions
     """
-    csv_path = os.path.join(path, "Actions2.csv")
+    csv_path = os.path.join(path, "Actions1.csv")
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -49,7 +49,7 @@ def sort_list_data(data3):
     Fonction qui trie la liste
     reverse=False = Petit au plus grand
     """
-    list_sort = sorted(data3, key=lambda x: float(x['price']), reverse=True)
+    list_sort = sorted(data3, key=lambda x: float(x['profit']), reverse=True)
 
     return list_sort
 
@@ -79,8 +79,68 @@ def delete_identical_number(data4):
     return new_list
 
 
+def generate_combinations(data5):
+    total_purchase_action = 0
+    total_profit = 0
+    best_combinations = []
+    length = len(data5)
+    list_data1 = list(range(0, length))  # indice de 0 à (20 exclus)
+    ll = length
+    aa = True
+    while aa:
+        list_data2 = combinations(list_data1, ll)
+        for j in list_data2:
+            info_price = [float(data5[c]['price']) for c in j]
+            temp_total_purchase_action = sum(info_price)
+            if temp_total_purchase_action <= MAX:
+                for i in list_data2:
+                    info_i = len(i)
+                    sum_i = sum(i)
+                    if info_i == 1:  # si info_i contient qu'une seule valeur
+                        select_index = i[0]
+                        select_action = data5[select_index]
+                        select_purchase_action, select_profit = \
+                            float(select_action['price']), float(select_action['total_benefice'])
+                        if select_purchase_action <= MAX and select_profit > total_profit:
+                            best_combinations, total_profit = select_action, select_profit
+                            total_purchase_action += select_purchase_action
+                    elif info_i != 1:
+                        info_profit = [float(data5[c]['total_benefice']) for c in i]
+                        temp_total_profit = sum(info_profit)
+                        if temp_total_profit > total_profit:
+                            info_price = [float(data5[c]['price']) for c in i]
+                            temp_total_purchase_action = sum(info_price)
+                            if temp_total_purchase_action <= MAX:
+                                select_action = [data5[c] for c in i]
+                                best_combinations = select_action  # Liste des actions
+                                total_profit = temp_total_profit  # Total profit
+                                total_purchase_action = temp_total_purchase_action  # Total d'achat d'action
+                        if sum_i >= MAX + 700:
+                            aa = False
+                            break
+                if not aa:
+                    break
+            else:
+                if aa:
+                    ll -= 1
+                    break
+    return [total_purchase_action, total_profit, best_combinations]
+
+
 list_csv1 = get_data_csv()
 list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = delete_identical_number(list_csv4)
+final_result = generate_combinations(list_csv5)
+
+print("Coût d'achat:", final_result[0])
+print("Bénéfice:", final_result[1])
+print("Liste des actions:")
+for a in final_result[2]:
+    print(f"{a['name']}: Coût: {a['price']} : Pourcentage: {a['profit']} "
+          f": bénéfices: {a['total_benefice']}")
+
+end_time = time.time()
+result_time = end_time - start_time
+print(f"Temps d'exécution : {result_time} seconde(s)")
