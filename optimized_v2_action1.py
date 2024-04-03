@@ -105,7 +105,7 @@ def create_modify_table(pm, n, price, tt_benefice):
 
 def search_show_result(data5):
     """
-    Fonction qui recherche les actions selon les informations dans le tableau puis affiche
+    Fonction qui recherches les actions selon les informations dans le tableau puis affiche
     le résultat.
     Function that searches for stocks based on information in the array and displays
     the result.
