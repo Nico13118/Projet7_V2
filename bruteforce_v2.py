@@ -13,7 +13,7 @@ def get_data_csv():
 
     : return : list_actions
     """
-    csv_path = os.path.join(path, "Actions1.csv")
+    csv_path = os.path.join(path, "Actions2.csv")
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -109,9 +109,6 @@ def generate_combinations(data5):
                 total_purchase_action = temp_total_purchase_action
                 total_profit = temp_total_profit
                 result_ll = ll
-                print("total d'achat", temp_total_purchase_action)
-                print("total bénéfice", temp_total_profit)
-                print()
         ll -= 1
         if ll == 0:
             aa = False
@@ -129,9 +126,6 @@ def generate_combinations(data5):
                 best_combinations = select_action  # Liste des actions
                 total_profit = temp_total_profit  # Total profit
                 total_purchase_action = temp_total_purchase_action  # Total d'achat d'action
-                print("total d'achat", total_purchase_action)
-                print("total bénéfice", total_profit)
-                print()
         if sum_i >= MAX + 700:
             break
 
