@@ -82,23 +82,13 @@ def delete_identical_number(data4):
     return new_list
 
 
-def generate_best_combinations(data5):
+def create_modify_table(pm, n, price, tt_benefice):
     """
-    5)
-    Fonction qui permet de créer un tableau à deux dimensions. Les données sont ensuite
-    calculées et placées dans le tableau selon leurs valeurs. Une fois terminée, une boucle
-    parcourt les listes en commençant par la fin, sélectionne l'action correspondante, puis
-    affiche le résultat.
-    Function that allows to create a two-dimensional array. The data is then calculated
-    and placed in the array according to their values. Once finished, a loop iterates
-    through the lists starting from the end, selects the corresponding action, and displays
-    the result.
+    Fonction qui permet de créer un tableau à deux dimensions, les données sont ensuite
+    calculées et placées dans le tableau selon leur valeur.
+    Function that creates a two-dimensional array, data is then calculated and placed in
+    the array according to their value.
     """
-    pm = PRICE_MAX * 100
-    n = len(data5)
-    price = [int(float(c['price']) * 100) for c in data5]
-    tt_benefice = [float(c['total_benefice']) for c in data5]
-
     # Créer un tableau à deux dimensions pour stocker les résultats intermédiaires
     t = [[0 for x in range(pm + 1)] for x in range(n + 1)]
     # Parcourir le tableau et calculer les résultats intermédiaires
@@ -110,6 +100,22 @@ def generate_best_combinations(data5):
                 t[i][p] = max(tt_benefice[i - 1] + t[i - 1][p - price[i - 1]], t[i - 1][p])
             else:
                 t[i][p] = t[i - 1][p]
+    return t
+
+
+def search_show_result(data5):
+    """
+    Fonction qui recherches les actions selon les informations dans le tableau puis affiche
+    le résultat.
+    Function that searches for stocks based on information in the array and displays
+    the result.
+    """
+    pm = PRICE_MAX * 100
+    n = len(data5)
+    price = [int(float(c['price']) * 100) for c in data5]
+    tt_benefice = [float(c['total_benefice']) for c in data5]
+
+    t = create_modify_table(pm, n, price, tt_benefice)
 
     # Trouver la liste d'actions sélectionnées en remontant le tableau à partir de la dernière cellule
     selected_actions = []
@@ -135,7 +141,7 @@ list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = delete_identical_number(list_csv4)
-generate_best_combinations(list_csv5)
+search_show_result(list_csv5)
 
 end_time = time.time()
 result = end_time - start_time
