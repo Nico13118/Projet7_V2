@@ -86,44 +86,55 @@ def generate_combinations(data5):
     length = len(data5)
     list_data1 = list(range(0, length))  # indice de 0 à (20 exclus)
     ll = length
+    result_ll = 0
+    list_j = []
     aa = True
     while aa:
-        list_data2 = combinations(list_data1, ll)
-        for j in list_data2:
-            info_price = [float(data5[c]['price']) for c in j]
+        j = list(range(0, ll))
+        info_price = [float(data5[c]['price']) for c in j]
+        info_profit = [float(data5[c]['total_benefice']) for c in j]
+        temp_total_purchase_action = sum(info_price)
+        temp_total_profit = sum(info_profit)
+        if temp_total_purchase_action <= MAX:
+            if list_j:
+                if temp_total_purchase_action > total_purchase_action:
+                    if temp_total_profit > total_profit:
+                        list_j = [j]
+                        total_purchase_action = temp_total_purchase_action
+                        total_profit = temp_total_profit
+                        result_ll = ll
+
+            else:
+                list_j.append(j)
+                total_purchase_action = temp_total_purchase_action
+                total_profit = temp_total_profit
+                result_ll = ll
+                print("total d'achat", temp_total_purchase_action)
+                print("total bénéfice", temp_total_profit)
+                print()
+        ll -= 1
+        if ll == 0:
+            aa = False
+
+    list_data3 = combinations(list_data1, result_ll)
+    for i in list_data3:
+        sum_i = sum(i)
+        info_profit = [float(data5[c]['total_benefice']) for c in i]
+        temp_total_profit = sum(info_profit)
+        if temp_total_profit > total_profit:
+            info_price = [float(data5[c]['price']) for c in i]
             temp_total_purchase_action = sum(info_price)
             if temp_total_purchase_action <= MAX:
-                for i in list_data2:
-                    info_i = len(i)
-                    sum_i = sum(i)
-                    if info_i == 1:  # si info_i contient qu'une seule valeur
-                        select_index = i[0]
-                        select_action = data5[select_index]
-                        select_purchase_action, select_profit = \
-                            float(select_action['price']), float(select_action['total_benefice'])
-                        if select_purchase_action <= MAX and select_profit > total_profit:
-                            best_combinations, total_profit = select_action, select_profit
-                            total_purchase_action += select_purchase_action
-                    elif info_i != 1:
-                        info_profit = [float(data5[c]['total_benefice']) for c in i]
-                        temp_total_profit = sum(info_profit)
-                        if temp_total_profit > total_profit:
-                            info_price = [float(data5[c]['price']) for c in i]
-                            temp_total_purchase_action = sum(info_price)
-                            if temp_total_purchase_action <= MAX:
-                                select_action = [data5[c] for c in i]
-                                best_combinations = select_action  # Liste des actions
-                                total_profit = temp_total_profit  # Total profit
-                                total_purchase_action = temp_total_purchase_action  # Total d'achat d'action
-                        if sum_i >= MAX + 700:
-                            aa = False
-                            break
-                if not aa:
-                    break
-            else:
-                if aa:
-                    ll -= 1
-                    break
+                select_action = [data5[c] for c in i]
+                best_combinations = select_action  # Liste des actions
+                total_profit = temp_total_profit  # Total profit
+                total_purchase_action = temp_total_purchase_action  # Total d'achat d'action
+                print("total d'achat", total_purchase_action)
+                print("total bénéfice", total_profit)
+                print()
+        if sum_i >= MAX + 700:
+            break
+
     return [total_purchase_action, total_profit, best_combinations]
 
 
