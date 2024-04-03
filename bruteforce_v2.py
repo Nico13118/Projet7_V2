@@ -9,11 +9,11 @@ MAX = 500
 
 
 def get_data_csv():
-    """ Fonction qui permet d'extraire les données du fichier Action.csv
-
-    : return : list_actions
     """
-    csv_path = os.path.join(path, "Actions2.csv")
+    Fonction qui permet d'extraire les données du fichier Action.csv
+
+    """
+    csv_path = os.path.join(path, "Actions1.csv")
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -23,9 +23,9 @@ def get_data_csv():
 def modify_list_csv(data1):
     """
     2)
-    Fonction qui garde les valeurs de price superieur à 1.
+    Fonction qui garde les valeurs de price superieur à 0.
     """
-    new_list = [c for c in data1 if float(c['price']) > 1]
+    new_list = [c for c in data1 if float(c['price']) > 0]
     return new_list
 
 
@@ -58,7 +58,7 @@ def delete_identical_number(data4):
     """
     5)
     Fonction qui compare les valeurs en double pour le champ price et
-    garde la valeur la plus haute
+    garde la valeur la plus haute du bénéfice
     """
     new_list = []
     for data1 in data4:
@@ -80,16 +80,25 @@ def delete_identical_number(data4):
 
 
 def generate_combinations(data5):
+    """
+    Fonction qui permet de créer plusieurs listes de combinaisons
+    """
     total_purchase_action = 0
     total_profit = 0
     best_combinations = []
     length = len(data5)
-    list_data1 = list(range(0, length))  # indice de 0 à (20 exclus)
+    list_data1 = list(range(0, length))  # indice de 0 à (X exclus)
     ll = length
     result_ll = 0
     list_j = []
     aa = True
     while aa:
+        """ 
+        Boucle qui permet de créer une liste de X combinaisons.
+        A chaque tour X est déduit de 1.
+        Le total d'achat d'action et de bénéfice sont calculés et garde en mémoire le meilleur résultat.
+        
+        """
         j = list(range(0, ll))
         info_price = [float(data5[c]['price']) for c in j]
         info_profit = [float(data5[c]['total_benefice']) for c in j]
