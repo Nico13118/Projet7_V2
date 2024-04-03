@@ -13,7 +13,7 @@ def get_data_csv():
     Fonction qui permet d'extraire les données du fichier Action.csv
 
     """
-    csv_path = os.path.join(path, "Actions1.csv")
+    csv_path = os.path.join(path, "Actions2.csv")
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -96,7 +96,8 @@ def generate_combinations(data5):
         """ 
         Boucle qui permet de créer une liste de X combinaisons.
         A chaque tour X est déduit de 1.
-        Le total d'achat d'action et de bénéfice sont calculés et garde en mémoire le meilleur résultat.
+        Le total d'achat d'action et de bénéfice sont calculés et garde en mémoire la meilleurs combinaisons qui sera
+        utilisé à la fin de la boucle.
         
         """
         j = list(range(0, ll))
@@ -106,12 +107,11 @@ def generate_combinations(data5):
         temp_total_profit = sum(info_profit)
         if temp_total_purchase_action <= MAX:
             if list_j:
-                if temp_total_purchase_action > total_purchase_action:
-                    if temp_total_profit > total_profit:
-                        list_j = [j]
-                        total_purchase_action = temp_total_purchase_action
-                        total_profit = temp_total_profit
-                        result_ll = ll
+                if temp_total_profit > total_profit:
+                    list_j = [j]
+                    total_purchase_action = temp_total_purchase_action
+                    total_profit = temp_total_profit
+                    result_ll = ll
 
             else:
                 list_j.append(j)
@@ -122,6 +122,10 @@ def generate_combinations(data5):
         if ll == 0:
             aa = False
 
+    """ 
+    La meilleurs combinaisons 'result_ll' permet de créer plusieurs listes de combinaisons, permettant ainsi d'avoir
+    de rechercher et avoir un résultat plus précis.
+    """
     list_data3 = combinations(list_data1, result_ll)
     for i in list_data3:
         sum_i = sum(i)
