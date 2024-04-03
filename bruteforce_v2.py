@@ -10,8 +10,8 @@ MAX = 500
 
 def get_data_csv():
     """
-    Fonction qui permet d'extraire les données du fichier Action.csv
-
+    Fonction qui permet d'extraire les données du fichier Actions.csv.
+    Function that extracts data from the Actions.csv file.
     """
     csv_path = os.path.join(path, "Actions2.csv")
     with open(csv_path, newline='') as csvfile:
@@ -23,7 +23,8 @@ def get_data_csv():
 def modify_list_csv(data1):
     """
     2)
-    Fonction qui garde les valeurs de price superieur à 0.
+    Fonction qui garde les valeurs de price supérieures à 0.
+    Function that keeps values of price greater than 0.
     """
     new_list = [c for c in data1 if float(c['price']) > 0]
     return new_list
@@ -32,7 +33,8 @@ def modify_list_csv(data1):
 def add_value_csv(data2):
     """
     3)
-    Fonction qui calcul et ajoute des valeurs dans le champ total_benefice
+    Fonction qui calcule et ajoute des valeurs dans le champ total_bénéfice.
+    Function that calculates and adds values to the total_profit field.
     """
     for data_csv in data2:
 
@@ -46,8 +48,8 @@ def add_value_csv(data2):
 def sort_list_data(data3):
     """
     4)
-    Fonction qui trie la liste
-    reverse=False = Petit au plus grand
+    Fonction qui trie la liste.
+    Function that sorts the list.
     """
     list_sort = sorted(data3, key=lambda x: float(x['profit']), reverse=True)
 
@@ -57,8 +59,10 @@ def sort_list_data(data3):
 def delete_identical_number(data4):
     """
     5)
-    Fonction qui compare les valeurs en double pour le champ price et
-    garde la valeur la plus haute du bénéfice
+    Fonction qui compare les valeurs en double pour le champ price et garde la valeur la
+    plus haute de profit.
+    Function that compares duplicate values for the price field and keeps the highest
+    profit value.
     """
     new_list = []
     for data1 in data4:
@@ -81,7 +85,20 @@ def delete_identical_number(data4):
 
 def generate_combinations(data5):
     """
-    Fonction qui permet de créer plusieurs listes de combinaisons
+    Fonction qui permet de créer plusieurs listes de combinaisons.
+    Boucle qui permet de créer une liste de X combinaisons.
+    A chaque tour X est déduit de 1.
+    Le total d'achat d'action et de bénéfice sont calculés et garde en mémoire le nombre
+    de combinaisons qui sera utilisé à la fin de la boucle.
+    La nombre de combinaisons se trouvant dans 'result_ll' permet de créer plusieurs listes
+    de combinaisons, permettant ainsi d'avoir un résultat plus précis.
+    Function that allows to create multiple combination lists.
+    Loop that creates a list of X combinations at each iteration.
+    At each iteration, X is reduced by 1.
+    The total of stock purchases and profits is calculated and stored in memory, as well
+    as the number of combinations that will be used at the end of the loop.
+    The number of combinations found in 'result_ll' allows to create multiple combination
+    lists, thus ensuring a more accurate result.
     """
     total_purchase_action = 0
     total_profit = 0
@@ -93,13 +110,6 @@ def generate_combinations(data5):
     list_j = []
     aa = True
     while aa:
-        """ 
-        Boucle qui permet de créer une liste de X combinaisons.
-        A chaque tour X est déduit de 1.
-        Le total d'achat d'action et de bénéfice sont calculés et garde en mémoire la meilleurs combinaisons qui sera
-        utilisé à la fin de la boucle.
-        
-        """
         j = list(range(0, ll))
         info_price = [float(data5[c]['price']) for c in j]
         info_profit = [float(data5[c]['total_benefice']) for c in j]
@@ -122,10 +132,6 @@ def generate_combinations(data5):
         if ll == 0:
             aa = False
 
-    """ 
-    La meilleurs combinaisons 'result_ll' permet de créer plusieurs listes de combinaisons, permettant ainsi d'avoir
-    de rechercher et avoir un résultat plus précis.
-    """
     list_data3 = combinations(list_data1, result_ll)
     for i in list_data3:
         sum_i = sum(i)
