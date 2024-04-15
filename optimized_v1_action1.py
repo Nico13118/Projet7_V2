@@ -5,6 +5,7 @@ import time
 path = os.getcwd()
 start_time = time.time()
 PRICE_MAX = 500
+CSV_FILE_NAME = "Actions2.csv"
 
 
 def get_data_csv():
@@ -12,7 +13,7 @@ def get_data_csv():
     Fonction qui permet d'extraire les données du fichier Actions.csv.
     Function that extracts data from the Actions.csv file.
     """
-    csv_path = os.path.join(path, "Actions1.csv")
+    csv_path = os.path.join(path, CSV_FILE_NAME)
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -94,9 +95,7 @@ def create_modify_table(pm, n, price, tt_benefice):
     # Parcourir le tableau et calculer les résultats intermédiaires
     for i in range(n + 1):
         for p in range(pm + 1):
-            if i == 0 or p == 0:
-                t[i][p] = 0
-            elif price[i - 1] <= p:
+            if price[i - 1] <= p:
                 t[i][p] = max(tt_benefice[i - 1] + t[i - 1][p - price[i - 1]], t[i - 1][p])
             else:
                 t[i][p] = t[i - 1][p]
