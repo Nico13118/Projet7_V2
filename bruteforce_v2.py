@@ -6,6 +6,7 @@ import os
 start_time = time.time()
 path = os.getcwd()
 MAX = 500
+CSV_FILE_NAME = "Actions2.csv"
 
 
 def get_data_csv():
@@ -13,7 +14,7 @@ def get_data_csv():
     Fonction qui permet d'extraire les données du fichier Actions.csv.
     Function that extracts data from the Actions.csv file.
     """
-    csv_path = os.path.join(path, "Actions2.csv")
+    csv_path = os.path.join(path, CSV_FILE_NAME)
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -128,9 +129,10 @@ def generate_combinations(data5):
                 total_purchase_action = temp_total_purchase_action
                 total_profit = temp_total_profit
                 result_ll = ll
-        ll -= 1
+
         if ll == 0:
             aa = False
+        ll -= 1
 
     list_data3 = combinations(list_data1, result_ll)
     for i in list_data3:
