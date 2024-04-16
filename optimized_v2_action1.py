@@ -2,6 +2,7 @@ import csv
 import os
 import time
 from numba import jit
+import sys
 
 path = os.getcwd()
 start_time = time.time()
@@ -21,12 +22,25 @@ def get_data_csv(csv_file):
     Fonction qui permet d'extraire les données du fichier Actions.csv.
     Function that extracts data from the Actions.csv file.
     """
+    try:
+        control_price_max = int(csv_file[0]['PriceMax'])
+    except ValueError:
+        print("Erreur constatée dans le champ PriceMax, veuillez saisir ")
+        print("une valeur numérique dans le fichier input_data.csv")
+        sys.exit()
     file_name = csv_file[0]['CsvFileName']
     csv_path = os.path.join(path, file_name)
-    with open(csv_path, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        list_actions = list(reader)
-        return list_actions
+    control_file = os.path.exists(csv_path)
+    if control_file:
+        with open(csv_path, newline='') as csvfile:
+            reader = csv.DictReader(csvfile)
+            list_actions = list(reader)
+            return list_actions
+    else:
+        print(f"Nom du fichier renseigné dans input_data.csv = {file_name}")
+        print("Le fichier à analyser n'existe pas dans le répertoire Projet7_V2, veuillez")
+        print("contrôler votre saisie dans input_data.csv")
+        sys.exit()
 
 
 def modify_list_csv(data1):
