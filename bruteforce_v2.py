@@ -5,16 +5,24 @@ import os
 
 start_time = time.time()
 path = os.getcwd()
-MAX = 500
-CSV_FILE_NAME = "Actions2.csv"
+INPUT_DATA_CSV = "input_data.csv"
 
 
-def get_data_csv():
+def get_input_data():
+    csv_path = os.path.join(path, INPUT_DATA_CSV)
+    with open(csv_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        info_data = list(reader)
+        return info_data
+
+
+def get_data_csv(csv_file):
     """
     Fonction qui permet d'extraire les données du fichier Actions.csv.
     Function that extracts data from the Actions.csv file.
     """
-    csv_path = os.path.join(path, CSV_FILE_NAME)
+    file_name = csv_file[0]['CsvFileName']
+    csv_path = os.path.join(path, file_name)
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -84,7 +92,7 @@ def delete_identical_number(data4):
     return new_list
 
 
-def generate_combinations(data5):
+def generate_combinations(data5, data_0):
     """
     Fonction qui permet de créer plusieurs listes de combinaisons.
     Boucle qui permet de créer une liste de X combinaisons.
@@ -109,6 +117,7 @@ def generate_combinations(data5):
     ll = length
     result_ll = 0
     list_j = []
+    price_max = int(data_0[0]['PriceMax'])
     aa = True
     while aa:
         j = list(range(0, ll))
@@ -116,7 +125,7 @@ def generate_combinations(data5):
         info_profit = [float(data5[c]['total_benefice']) for c in j]
         temp_total_purchase_action = sum(info_price)
         temp_total_profit = sum(info_profit)
-        if temp_total_purchase_action <= MAX:
+        if temp_total_purchase_action <= price_max:
             if list_j:
                 if temp_total_profit > total_profit:
                     list_j = [j]
@@ -142,23 +151,24 @@ def generate_combinations(data5):
         if temp_total_profit > total_profit:
             info_price = [float(data5[c]['price']) for c in i]
             temp_total_purchase_action = sum(info_price)
-            if temp_total_purchase_action <= MAX:
+            if temp_total_purchase_action <= price_max:
                 select_action = [data5[c] for c in i]
                 best_combinations = select_action  # Liste des actions
                 total_profit = temp_total_profit  # Total profit
                 total_purchase_action = temp_total_purchase_action  # Total d'achat d'action
-        if sum_i >= MAX + 700:
+        if sum_i >= price_max + 700:
             break
 
     return [total_purchase_action, total_profit, best_combinations]
 
 
-list_csv1 = get_data_csv()
+data0 = get_input_data()
+list_csv1 = get_data_csv(data0)
 list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = delete_identical_number(list_csv4)
-final_result = generate_combinations(list_csv5)
+final_result = generate_combinations(list_csv5, data0)
 
 print("Coût d'achat:", final_result[0])
 print("Bénéfice:", final_result[1])
