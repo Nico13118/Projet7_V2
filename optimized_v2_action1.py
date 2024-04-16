@@ -5,16 +5,24 @@ from numba import jit
 
 path = os.getcwd()
 start_time = time.time()
-PRICE_MAX = 500
-CSV_FILE_NAME = "Actions2.csv"
+INPUT_DATA_CSV = "input_data.csv"
 
 
-def get_data_csv():
+def get_input_data():
+    csv_path = os.path.join(path, INPUT_DATA_CSV)
+    with open(csv_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        info_data = list(reader)
+        return info_data
+
+
+def get_data_csv(csv_file):
     """
     Fonction qui permet d'extraire les données du fichier Actions.csv.
     Function that extracts data from the Actions.csv file.
     """
-    csv_path = os.path.join(path, CSV_FILE_NAME)
+    file_name = csv_file[0]['CsvFileName']
+    csv_path = os.path.join(path, file_name)
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -104,14 +112,15 @@ def create_modify_table(pm, n, price, tt_benefice):
     return t
 
 
-def search_show_result(data5):
+def search_show_result(data5, data_0):
     """
     Fonction qui recherches les actions selon les informations dans le tableau puis affiche
     le résultat.
     Function that searches for stocks based on information in the array and displays
     the result.
     """
-    pm = PRICE_MAX * 100
+    price_max = data_0[0]['PriceMax']
+    pm = int(price_max) * 100
     n = len(data5)
     price = [int(float(c['price']) * 100) for c in data5]
     tt_benefice = [float(c['total_benefice']) for c in data5]
@@ -135,12 +144,13 @@ def search_show_result(data5):
         print(f"{a['name']}: Coût: {a['price']} : Pourcentage: {a['profit']} : bénéfices: {a['total_benefice']}")
 
 
-list_csv1 = get_data_csv()
+data0 = get_input_data()
+list_csv1 = get_data_csv(data0)
 list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = delete_identical_number(list_csv4)
-search_show_result(list_csv5)
+search_show_result(list_csv5, data0)
 
 
 end_time = time.time()
