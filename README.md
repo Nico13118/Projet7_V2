@@ -1,23 +1,3 @@
-## AlgoInvest&Trade - Algorithme de Maximisation des Bénéfices
-
-### Auteur : Nicolas Sylvestre
-
-### Contact : sylvestrenicolas@sfr.fr
-
-
-## Introduction
-### Cet algorithme a pour objectif de calculer et de maximiser les bénéfices financiers, il est disponible sous 3 versions différentes : bruteforce, optimized_v1, optimized_v2.
-
-## Fonctionnement de l'algorithme
-### AlgoInvest&Trade a conçu un algorithme permettant de lire le contenu d'un fichier CSV, de calculer et d'afficher la liste d'actions qui rapportent le plus de bénéfices en fonction de l'investissement initial.
-### L'algorithme est implémenté dans trois versions différentes pour offrir une flexibilité et une efficacité maximales :
-### - **Version Brute Force** : Cette version utilise une approche de force brute pour calculer les résultats. Cet algorithme peut être plus lent, mais garantit une solution optimale.
-### - **Version Optimisée (1)** : Cette version utilise une méthode optimisée pour calculer les résultats tout en garantissant une solution optimale.
-### - **Version Optimisée (2)** : Cette version est une autre version optimisée qui vise à améliorer encore les performances de calcul.
-
-
-## Prérequis
-### Avant d'utiliser cet algorithme, assurez-vous d'avoir les éléments suivants installés sur votre système :
 
 ## Python
 ### Assurez-vous d'avoir installé la dernière version de Python. Si ce n'est pas déjà fait, vous pouvez suivre les instructions fournies dans le lien suivant pour installer Python :
@@ -28,14 +8,14 @@
 ### [Guide d'installation Git](https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git)
 
 ## Téléchargement des fichiers.
-### Sous Windows, procédez à l'ouverture d'une invite de commande (Cmd ou PowerShell), puis exécutez les commandes suivantes (Cmd ou PowerShell) :
+### Sous Windows, ouvrez une invite de commande (Cmd ou PowerShell) et exécutez les commandes suivantes :
 ```
 cd desktop   
    ```
 ```
 git clone https://github.com/Nico13118/Projet7_V2.git
    ``` 
-### Sous Mac / Linux, procédez, à l'ouverture du Terminal, puis exécutez les commandes suivantes (Terminal) :
+### Sous Mac / Linux, ouvrez le Terminal et exécutez les commandes suivantes :
 ```
 cd ~/Desktop   
    ```
@@ -99,9 +79,9 @@ pip install -r requirements.txt
 
 ## Structure du fichier CSV.
 ### Assurez-vous que votre fichier CSV respecte la structure suivante pour que le programme puisse fonctionner correctement :
-### name: Le nom de l'action.
-### price: Le prix d'achat de l'action.
-### profit: Le bénéfice attendu de l'action.
+### - **name** : Le nom de l'action.
+### - **price** : Le prix d'achat de l'action.
+### - **profit** : Le bénéfice attendu de l'action.
 
 ### Voici un exemple de fichier CSV conforme à cette structure :
 ```
@@ -116,6 +96,7 @@ Name-Action2,26.04,38.06
 
 
 ## Lancemement d'une analyse.
+### Après avoir effectué le paramétrage, vous pouvez lancer l'analyse en suivant ces étapes :
 ### Sous Windows, exécutez les commandes suivantes (Cmd ou PowerShell) selon l'algorithme que vous souhaitez utiliser :
 ```
 cd desktop/Projet7_V2
@@ -154,3 +135,23 @@ python3 optimized_v2_action1.py
 ### - **Le coût total d'achat des actions** : C'est le montant total dépensé pour l'achat des actions sélectionnées.
 ### - **Les bénéfices générés** : Il s'agit du bénéfice total généré par les actions sélectionnées.
 ### - **La liste des actions selectionnées** : Cette liste présente les actions choisies par l'algorithme pour maximiser les bénéfices, avec leur nom, prix d'achat et bénéfice associé.
+## AlgoInvest&Trade - Algorithme de Maximisation des Bénéfices
+
+### Auteur : Nicolas Sylvestre
+
+### Contact : sylvestrenicolas@sfr.fr
+
+
+## Introduction
+### Cet algorithme a pour objectif de calculer et de maximiser les bénéfices financiers, il est disponible sous 3 versions différentes : bruteforce, optimized_v1, optimized_v2.
+
+## Fonctionnement de l'algorithme
+### AlgoInvest&Trade a conçu un algorithme permettant de lire le contenu d'un fichier CSV, de calculer et d'afficher la liste d'actions qui rapportent le plus de bénéfices en fonction de l'investissement initial.
+### L'algorithme est implémenté dans trois versions différentes pour offrir une flexibilité et une efficacité maximales :
+### - **Version Brute Force** : Cette version utilise une approche de force brute pour calculer les résultats. Cet algorithme peut être plus lent, mais garantit une solution optimale.
+### - **Version Optimisée (1)** : Cette version utilise une méthode optimisée pour calculer les résultats tout en garantissant une solution optimale.
+### - **Version Optimisée (2)** : Cette version est une autre version optimisée qui vise à améliorer encore les performances de calcul.
+
+
+## Prérequis
+### Avant d'utiliser cet algorithme, assurez-vous d'avoir les éléments suivants installés sur votre système :
