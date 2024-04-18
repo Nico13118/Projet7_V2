@@ -63,8 +63,14 @@ python3 -m venv env
 
 ### Sous Windows, exécutez les commandes suivantes (Cmd ou PowerShell) :
 
+### Invite de commande cmd
 ```
 env\Scripts\activate
+   ``` 
+
+### Invite de commande PowerShell
+```
+env/Scripts/activate
    ``` 
 
 ### Sous Mac / Linux, exécutez les commandes suivantes (Terminal) :
