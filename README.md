@@ -157,5 +157,5 @@ python3 optimized_v2_action1.py
 ### Une fois l'analyse terminée, l'algorithme affiche le résultat, qui comprend les éléments suivants :
 ### - **Le coût total d'achat des actions** : C'est le montant total dépensé pour l'achat des actions sélectionnées.
 ### - **Les bénéfices générés** : Il s'agit du bénéfice total généré par les actions sélectionnées.
-### - **La liste des actions selectionnées** : Cette liste présente les actions choisies par l'algorithme pour maximiser les bénéfices, avec leur nom, prix d'achat et bénéfice associé.
+### - **La liste des actions selectionnées** : Cette liste présente les actions choisies par l'algorithme pour maximiser les bénéfices, avec le nom de l'action, le prix d'achat et le bénéfice associé.
 
