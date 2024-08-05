@@ -42,6 +42,7 @@ def get_data_csv(csv_file):
         print("contrôler votre saisie dans input_data.csv")
         sys.exit()
 
+
 def modify_list_csv(data1):
     """
     2)
@@ -49,7 +50,8 @@ def modify_list_csv(data1):
     Function that keeps values of price greater than 0.
     """
     new_list = [c for c in data1 if float(c['price']) > 0]
-    return new_list
+    new_list2 = [c for c in new_list if float(c['profit']) > 0]
+    return new_list2
 
 
 def add_value_csv(data2):
@@ -62,7 +64,7 @@ def add_value_csv(data2):
 
         value_price = float(data_csv['price'])
         pourcentage = float(data_csv['profit'])
-        data_csv['total_benefice'] = value_price * (pourcentage / 100)
+        data_csv['total_profit'] = value_price * (pourcentage / 100)
 
     return data2
 
@@ -135,7 +137,7 @@ def generate_combinations(data5, data_0):
     while aa:
         j = list(range(0, ll))
         info_price = [float(data5[c]['price']) for c in j]
-        info_profit = [float(data5[c]['total_benefice']) for c in j]
+        info_profit = [float(data5[c]['total_profit']) for c in j]
         temp_total_purchase_action = sum(info_price)
         temp_total_profit = sum(info_profit)
         if temp_total_purchase_action <= price_max:
@@ -159,7 +161,7 @@ def generate_combinations(data5, data_0):
     list_data3 = combinations(list_data1, result_ll)
     for i in list_data3:
         sum_i = sum(i)
-        info_profit = [float(data5[c]['total_benefice']) for c in i]
+        info_profit = [float(data5[c]['total_profit']) for c in i]
         temp_total_profit = sum(info_profit)
         if temp_total_profit > total_profit:
             info_price = [float(data5[c]['price']) for c in i]
@@ -188,7 +190,7 @@ print("Bénéfice:", final_result[1])
 print("Liste des actions:")
 for a in final_result[2]:
     print(f"{a['name']}: Coût: {a['price']} : Pourcentage: {a['profit']} "
-          f": bénéfices: {a['total_benefice']}")
+          f": bénéfices: {a['total_profit']}")
 
 end_time = time.time()
 result_time = end_time - start_time
