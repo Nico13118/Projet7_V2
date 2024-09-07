@@ -65,6 +65,7 @@ def add_value_csv(data2):
         value_price = float(data_csv['price'])
         pourcentage = float(data_csv['profit'])
         data_csv['total_profit'] = value_price * (pourcentage / 100)
+        data_csv['ratio'] = pourcentage / value_price
 
     return data2
 
@@ -80,30 +81,22 @@ def sort_list_data(data3):
     return list_sort
 
 
-def delete_identical_number(data4):
+def optimize_identical_actions(info_list=None):
     """
-    5)
-    Fonction qui compare les valeurs en double pour le champ price et garde la valeur la
-    plus haute de profit.
-    Function that compares duplicate values for the price field and keeps the highest
-    profit value.
+    Fonction qui permet de rechercher les actions qui ont le même prix et garde l'action qui a le meilleur result_profit
     """
     new_list = []
-    for data1 in data4:
-        if new_list:
-            info_new_list = new_list[-1]
-            result_price_new_list = int(float(info_new_list['price']) * 10)
-            result_price_modify1 = int(float(data1['price']) * 10)
-            if result_price_new_list == result_price_modify1:
-                result_profit_new_list = float(info_new_list['profit'])
-                result_profit_modify1 = float(data1['profit'])
-                if result_profit_modify1 > result_profit_new_list:
-                    del new_list[-1]
-                    new_list.append(data1)
+    for action in info_list:
+        price_action = float(action['price'])
+        control_action = [c for c in new_list if float(c['price']) == price_action]
+        if not control_action:
+            action_temp = [c for c in info_list if float(c['price']) == price_action]
+            if len(action_temp) == 1:
+                new_list.append(action_temp[0])
             else:
-                new_list.append(data1)
-        else:
-            new_list.append(data1)
+                action_temp_sort = sorted(action_temp, key=lambda x: x['ratio'], reverse=True)
+                new_list.append(action_temp_sort[0])
+
     return new_list
 
 
@@ -159,6 +152,7 @@ def generate_combinations(data5, data_0):
         ll -= 1
 
     list_data3 = combinations(list_data1, result_ll)
+    number_of_search = 700
     for i in list_data3:
         sum_i = sum(i)
         info_profit = [float(data5[c]['total_profit']) for c in i]
@@ -171,7 +165,7 @@ def generate_combinations(data5, data_0):
                 best_combinations = select_action  # Liste des actions
                 total_profit = temp_total_profit  # Total profit
                 total_purchase_action = temp_total_purchase_action  # Total d'achat d'action
-        if sum_i >= price_max + 700:
+        if sum_i >= price_max + number_of_search:
             break
 
     return [total_purchase_action, total_profit, best_combinations]
@@ -182,7 +176,7 @@ list_csv1 = get_data_csv(data0)
 list_csv2 = modify_list_csv(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
-list_csv5 = delete_identical_number(list_csv4)
+list_csv5 = optimize_identical_actions(list_csv4)
 final_result = generate_combinations(list_csv5, data0)
 
 print("Coût d'achat:", final_result[0])
