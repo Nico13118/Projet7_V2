@@ -55,9 +55,10 @@ def filter_positive_price_and_profit(data1):
 
 def add_value_csv(data2):
     """
-    3)
-    Fonction qui calcule et ajoute des valeurs dans le champ total_bénéfice.
-    Function that calculates and adds values to the total_profit field.
+    Fonction qui calcule et ajoute des valeurs dans le champ total_profit et ratio.
+    Function that calculates and adds values in the total_profit and ratio fields.
+    :param data2
+    :return: data2
     """
     for data_csv in data2:
 
