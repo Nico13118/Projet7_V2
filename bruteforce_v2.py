@@ -1,4 +1,3 @@
-from itertools import combinations
 import time
 import csv
 import os
@@ -64,7 +63,7 @@ def add_value_csv(data2):
 
         value_price = float(data_csv['price'])
         pourcentage = float(data_csv['profit'])
-        data_csv['total_profit'] = value_price * (pourcentage / 100)
+        data_csv['result_profit'] = value_price * (pourcentage / 100)
         data_csv['ratio'] = pourcentage / value_price
 
     return data2
@@ -100,75 +99,33 @@ def optimize_identical_actions(info_list=None):
     return new_list
 
 
-def generate_combinations(data5, data_0):
-    """
-    Fonction qui permet de créer plusieurs listes de combinaisons.
-    Boucle qui permet de créer une liste de X combinaisons.
-    A chaque tour X est déduit de 1.
-    Le total d'achat d'action et de bénéfice sont calculés et garde en mémoire le nombre
-    de combinaisons qui sera utilisé à la fin de la boucle.
-    La nombre de combinaisons se trouvant dans 'result_ll' permet de créer plusieurs listes
-    de combinaisons, permettant ainsi d'avoir un résultat plus précis.
-    Function that allows to create multiple combination lists.
-    Loop that creates a list of X combinations at each iteration.
-    At each iteration, X is reduced by 1.
-    The total of stock purchases and profits is calculated and stored in memory, as well
-    as the number of combinations that will be used at the end of the loop.
-    The number of combinations found in 'result_ll' allows to create multiple combination
-    lists, thus ensuring a more accurate result.
-    """
-    total_purchase_action = 0
-    total_profit = 0
-    best_combinations = []
-    length = len(data5)
-    list_data1 = list(range(0, length))  # indice de 0 à (X exclus)
-    ll = length
-    result_ll = 0
-    list_j = []
+def search_best_profit(data5, data_0):
+    total_price = 0
+    total_result_profit = 0
+    p_max = 500
+    list_actions = []
+
     price_max = int(data_0[0]['PriceMax'])
-    aa = True
-    while aa:
-        j = list(range(0, ll))
-        info_price = [float(data5[c]['price']) for c in j]
-        info_profit = [float(data5[c]['total_profit']) for c in j]
-        temp_total_purchase_action = sum(info_price)
-        temp_total_profit = sum(info_profit)
-        if temp_total_purchase_action <= price_max:
-            if list_j:
-                if temp_total_profit > total_profit:
-                    list_j = [j]
-                    total_purchase_action = temp_total_purchase_action
-                    total_profit = temp_total_profit
-                    result_ll = ll
+    list_index1 = list(range(0, len(data5)))
+    list_index2 = []
+    for i in list_index1:
+        list_index2.append(i)
+        info_price = [float(data5[c]['price']) for c in list_index2]
+        sum_price_actions = sum(info_price)
 
-            else:
-                list_j.append(j)
-                total_purchase_action = temp_total_purchase_action
-                total_profit = temp_total_profit
-                result_ll = ll
+        info_profit = [float(data5[c]['result_profit']) for c in list_index2]
+        sum_result_profit = sum(info_profit)
 
-        if ll == 0:
-            aa = False
-        ll -= 1
+        if sum_price_actions <= p_max:
+            if sum_result_profit > total_result_profit:
+                info_action = data5[i]
+                list_actions.append(info_action)
+                total_price = sum_price_actions
+                total_result_profit = sum_result_profit
+        else:
+            del list_index2[-1]
 
-    list_data3 = combinations(list_data1, result_ll)
-    number_of_search = 700
-    for i in list_data3:
-        sum_i = sum(i)
-        info_profit = [float(data5[c]['total_profit']) for c in i]
-        temp_total_profit = sum(info_profit)
-        if temp_total_profit > total_profit:
-            info_price = [float(data5[c]['price']) for c in i]
-            temp_total_purchase_action = sum(info_price)
-            if temp_total_purchase_action <= price_max:
-                select_action = [data5[c] for c in i]
-                best_combinations = select_action  # Liste des actions
-                total_profit = temp_total_profit  # Total profit
-                total_purchase_action = temp_total_purchase_action  # Total d'achat d'action
-        if sum_i >= price_max + number_of_search:
-            break
-
-    return [total_purchase_action, total_profit, best_combinations]
+    return [total_price, total_result_profit, list_actions]
 
 
 data0 = get_input_data()
@@ -177,7 +134,7 @@ list_csv2 = filter_positive_price_and_profit(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = optimize_identical_actions(list_csv4)
-final_result = generate_combinations(list_csv5, data0)
+final_result = search_best_profit(list_csv5, data0)
 
 print("Coût d'achat:", final_result[0])
 print("Bénéfice:", final_result[1])
