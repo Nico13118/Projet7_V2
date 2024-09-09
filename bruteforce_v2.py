@@ -43,11 +43,10 @@ def get_data_csv(csv_file):
         sys.exit()
 
 
-def modify_list_csv(data1):
+def filter_positive_price_and_profit(data1):
     """
-    2)
-    Fonction qui garde les valeurs de price supérieures à 0.
-    Function that keeps values of price greater than 0.
+    Fonction qui retourne les actions dont les valeurs de price et profit sont supérieures à 0.
+    Function that returns stocks whose price and profit values are greater than 0.
     """
     new_list = [c for c in data1 if float(c['price']) > 0]
     new_list2 = [c for c in new_list if float(c['profit']) > 0]
@@ -173,7 +172,7 @@ def generate_combinations(data5, data_0):
 
 data0 = get_input_data()
 list_csv1 = get_data_csv(data0)
-list_csv2 = modify_list_csv(list_csv1)
+list_csv2 = filter_positive_price_and_profit(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = optimize_identical_actions(list_csv4)
