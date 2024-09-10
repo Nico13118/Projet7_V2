@@ -113,8 +113,8 @@ def search_best_profit(data5, data_0):
         info_price = [float(data5[c]['price']) for c in list_index2]
         sum_price_actions = sum(info_price)
 
-        info_profit = [float(data5[c]['result_profit']) for c in list_index2]
-        sum_result_profit = sum(info_profit)
+        info_result_profit = [float(data5[c]['result_profit']) for c in list_index2]
+        sum_result_profit = sum(info_result_profit)
 
         if sum_price_actions <= p_max:
             if sum_result_profit > total_result_profit:
