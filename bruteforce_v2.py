@@ -102,10 +102,9 @@ def optimize_identical_actions(info_list=None):
 def search_best_profit(data5, data_0):
     total_price = 0
     total_result_profit = 0
-    p_max = 500
     list_actions = []
 
-    price_max = int(data_0[0]['PriceMax'])
+    p_max = int(data_0[0]['PriceMax'])
     list_index1 = list(range(0, len(data5)))
     list_index2 = []
     for i in list_index1:
@@ -124,8 +123,50 @@ def search_best_profit(data5, data_0):
                 total_result_profit = sum_result_profit
         else:
             del list_index2[-1]
+    return [data5, list_actions]
 
-    return [total_price, total_result_profit, list_actions]
+
+def search_to_optimize_the_result(full_list_actions=None, list_selected_actions=None):
+    temp_action_list = []
+    temp_total_price = 0
+    temp_result_profit = 0
+    """ Exclure les données list_selected_actions de full_list_actions"""
+    info_list3 = [c for c in full_list_actions if c not in list_selected_actions]
+
+    list_sorted = sorted(info_list3, key=lambda x: float(x['price']), reverse=True)
+    action_list_sorted = sorted(list_selected_actions, key=lambda x: float(x['price']), reverse=True)
+
+    for action in action_list_sorted:
+        info_result_profit = float(action['result_profit'])
+
+        result_list1 = [c for c in list_sorted if float(c['price']) < float(action['price'])]
+        list_sorted2 = sorted(result_list1, key=lambda x: float(x['result_profit']), reverse=True)
+        result_list2 = [c for c in list_sorted2 if float(c['result_profit']) > info_result_profit]
+        if result_list2:
+            action_select2 = result_list2[0]
+            if action_select2 not in temp_action_list:
+                temp_action_list.append(action_select2)
+                temp_total_price += float(action_select2['price'])
+                temp_result_profit += float(action_select2['result_profit'])
+                print(result_list2[0])
+            else:
+                temp_action_list.append(action)
+                temp_total_price += float(action['price'])
+                temp_result_profit += float(action['result_profit'])
+        else:
+            temp_action_list.append(action)
+            temp_total_price += float(action['price'])
+            temp_result_profit += float(action['result_profit'])
+    return [temp_action_list, temp_total_price, temp_result_profit]
+
+
+def show_result(list_action=None, total_price=None, result_profit=None):
+    print("Total d'achats:", total_price)
+    print("Total des bénéfices:", result_profit)
+    print("Liste des actions:")
+    for l_action in list_action:
+        print(f"{l_action['name']}: Coût: {l_action['price']} : Pourcentage: {l_action['profit']} "
+              f": bénéfices: {l_action['result_profit']}")
 
 
 data0 = get_input_data()
@@ -135,13 +176,9 @@ list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = optimize_identical_actions(list_csv4)
 final_result = search_best_profit(list_csv5, data0)
+result = search_to_optimize_the_result(final_result[0], final_result[1])
+show_result(result[0], result[1], result[2])
 
-print("Coût d'achat:", final_result[0])
-print("Bénéfice:", final_result[1])
-print("Liste des actions:")
-for a in final_result[2]:
-    print(f"{a['name']}: Coût: {a['price']} : Pourcentage: {a['profit']} "
-          f": bénéfices: {a['total_profit']}")
 
 end_time = time.time()
 result_time = end_time - start_time
