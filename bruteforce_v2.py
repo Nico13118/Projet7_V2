@@ -9,6 +9,11 @@ INPUT_DATA_CSV = "input_data.csv"
 
 
 def get_input_data():
+    """
+    Fonction qui permet d'extraire et retourner les informations d'un fichier csv.
+    Function that allows you to extract and return information from a csv file.
+    : return : info_data
+    """
     csv_path = os.path.join(path, INPUT_DATA_CSV)
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -17,7 +22,14 @@ def get_input_data():
 
 
 def check_information_entered(all_data=None):
-
+    """
+    Fonction qui permet de contrôler que la valeur saisie dans le PriceMax est bien une valeur numérique et contrôle
+    que le nom du fichier saisi existe bien.
+    Function which allows you to check that the value entered in PriceMax is indeed a numeric value and checks that
+    the name of the file entered exists
+    : param : all_data
+    : return : file_name, price_max
+    """
     price_max = all_data[0]['PriceMax']
     file_name = all_data[0]["CsvFileName"]
 
@@ -64,7 +76,7 @@ def add_value_csv(data2):
     Fonction qui calcule et ajoute des valeurs dans le champ total_profit et ratio.
     Function that calculates and adds values in the total_profit and ratio fields.
     :param data2
-    :return: data2
+    :return data2
     """
     for data_csv in data2:
 
@@ -78,9 +90,10 @@ def add_value_csv(data2):
 
 def sort_list_data(data3):
     """
-    4)
-    Fonction qui trie la liste.
-    Function that sorts the list.
+    Fonction qui trie le champ profit du plus grand au plus petit.
+    Function that sorts the profit field from largest to smallest.
+    :param : data3
+    :return : list_sort
     """
     list_sort = sorted(data3, key=lambda x: float(x['profit']), reverse=True)
 
@@ -89,7 +102,12 @@ def sort_list_data(data3):
 
 def optimize_identical_actions(info_list=None):
     """
-    Fonction qui permet de rechercher les actions qui ont le même prix et garde l'action qui a le meilleur result_profit
+    Fonction qui permet de rechercher les actions qui ont le même prix et garde l'action qui a le meilleur
+    result_profit.
+    Function that allows you to search for stocks that have the same price and keep the stock that has the best
+    result_profit.
+    :param info_list
+    :return new_list
     """
     new_list = []
     for action in info_list:
@@ -107,6 +125,13 @@ def optimize_identical_actions(info_list=None):
 
 
 def search_best_profit(full_list_actions=None, p_max=None):
+    """
+    Fonction qui recherche les actions qui ont le meilleur bénéfice.
+    Function that searches for the stocks with the best profit.
+    :param full_list_actions
+    :param p_max
+    :return full_list_actions, list_actions
+    """
     total_price = 0
     total_result_profit = 0
     list_actions = []
@@ -134,6 +159,13 @@ def search_best_profit(full_list_actions=None, p_max=None):
 
 
 def search_to_optimize_the_result(full_list_actions=None, list_selected_actions=None):
+    """
+    Fonction qui cherche à optimiser le résultat.
+    Function that seeks to optimize the result.
+    :param full_list_actions:
+    :param list_selected_actions:
+    :return temp_action_list, temp_total_price, temp_result_profit
+    """
     temp_action_list = []
     temp_total_price = 0
     temp_result_profit = 0
@@ -168,6 +200,13 @@ def search_to_optimize_the_result(full_list_actions=None, list_selected_actions=
 
 
 def show_result(list_action=None, total_price=None, result_profit=None):
+    """
+    Fonction qui affiche le résultat.
+    Function that displays the result.
+    :param list_action
+    :param total_price
+    :param result_profit
+    """
     print("Total d'achats:", total_price)
     print("Total des bénéfices:", result_profit)
     print("Liste des actions:")
