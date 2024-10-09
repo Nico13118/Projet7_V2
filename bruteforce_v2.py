@@ -16,30 +16,37 @@ def get_input_data():
         return info_data
 
 
-def get_data_csv(csv_file):
+def check_information_entered(all_data=None):
+
+    price_max = all_data[0]['PriceMax']
+    file_name = all_data[0]["CsvFileName"]
+
+    x = price_max.isdigit()
+    if not x:
+        print("Erreur constatée dans le champ PriceMax, veuillez saisir ")
+        print("une valeur numérique dans le fichier input_data.csv")
+        sys.exit()
+
+    csv_path = os.path.join(path, file_name)
+    control_file = os.path.exists(csv_path)
+    if not control_file:
+        print(f"Le fichier {file_name} à analyser n'existe pas dans {path}, veuillez")
+        print("contrôler votre saisie dans input_data.csv")
+        sys.exit()
+
+    return file_name, price_max
+
+
+def get_data_csv(file_name=None):
     """
     Fonction qui permet d'extraire les données du fichier Actions.csv.
     Function that extracts data from the Actions.csv file.
     """
-    try:
-        control_price_max = int(csv_file[0]['PriceMax'])
-    except ValueError:
-        print("Erreur constatée dans le champ PriceMax, veuillez saisir ")
-        print("une valeur numérique dans le fichier input_data.csv")
-        sys.exit()
-    file_name = csv_file[0]['CsvFileName']
     csv_path = os.path.join(path, file_name)
-    control_file = os.path.exists(csv_path)
-    if control_file:
-        with open(csv_path, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            list_actions = list(reader)
-            return list_actions
-    else:
-        print(f"Nom du fichier renseigné dans input_data.csv = {file_name}")
-        print("Le fichier à analyser n'existe pas dans le répertoire Projet7_V2, veuillez")
-        print("contrôler votre saisie dans input_data.csv")
-        sys.exit()
+    with open(csv_path, newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        list_actions = list(reader)
+        return list_actions
 
 
 def filter_positive_price_and_profit(data1):
@@ -99,31 +106,31 @@ def optimize_identical_actions(info_list=None):
     return new_list
 
 
-def search_best_profit(data5, data_0):
+def search_best_profit(full_list_actions=None, p_max=None):
     total_price = 0
     total_result_profit = 0
     list_actions = []
 
-    p_max = int(data_0[0]['PriceMax'])
-    list_index1 = list(range(0, len(data5)))
+    p_max = int(p_max)
+    list_index1 = list(range(0, len(full_list_actions)))
     list_index2 = []
     for i in list_index1:
         list_index2.append(i)
-        info_price = [float(data5[c]['price']) for c in list_index2]
+        info_price = [float(full_list_actions[c]['price']) for c in list_index2]
         sum_price_actions = sum(info_price)
 
-        info_result_profit = [float(data5[c]['result_profit']) for c in list_index2]
+        info_result_profit = [float(full_list_actions[c]['result_profit']) for c in list_index2]
         sum_result_profit = sum(info_result_profit)
 
         if sum_price_actions <= p_max:
             if sum_result_profit > total_result_profit:
-                info_action = data5[i]
+                info_action = full_list_actions[i]
                 list_actions.append(info_action)
                 total_price = sum_price_actions
                 total_result_profit = sum_result_profit
         else:
             del list_index2[-1]
-    return [data5, list_actions]
+    return [full_list_actions, list_actions]
 
 
 def search_to_optimize_the_result(full_list_actions=None, list_selected_actions=None):
@@ -169,13 +176,18 @@ def show_result(list_action=None, total_price=None, result_profit=None):
               f": bénéfices: {l_action['result_profit']}")
 
 
-data0 = get_input_data()
-list_csv1 = get_data_csv(data0)
+data_csv_file = get_input_data()
+data_csv2 = check_information_entered(data_csv_file)
+
+info_price_max = data_csv2[1]
+csv_file_name = data_csv2[0]
+
+list_csv1 = get_data_csv(csv_file_name)
 list_csv2 = filter_positive_price_and_profit(list_csv1)
 list_csv3 = add_value_csv(list_csv2)
 list_csv4 = sort_list_data(list_csv3)
 list_csv5 = optimize_identical_actions(list_csv4)
-final_result = search_best_profit(list_csv5, data0)
+final_result = search_best_profit(list_csv5, info_price_max)
 result = search_to_optimize_the_result(final_result[0], final_result[1])
 show_result(result[0], result[1], result[2])
 
