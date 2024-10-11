@@ -6,20 +6,22 @@ project_root = os.getcwd()
 def show_menu():
     loop = True
     while loop:
-        print("-------------Menu-------------")
+        print("\n-------------Menu-------------")
         print("1) Algorithme BruteForce")
         print("2) Algorithme Optimized V1")
         print("3) Algorithme Optimized V2")
         print("4) Quitter")
         print("------------------------------")
-        user_response = input("Quel est votre choix ? : ")
+        user_response = input("\nQuel est votre choix ? : ")
 
         x = user_response.isdigit()
         if x:
             user_response = int(user_response)
             if user_response == 1:
                 selected_file = select_csv_file()
+                info_price = get_max_price()
                 print("Fichier selectionné = ", selected_file)
+                print("Infor_price = ", info_price)
             elif user_response == 2:
                 print("Choix 2 ok")
             elif user_response == 3:
@@ -45,7 +47,7 @@ def select_csv_file():
             for inf_file in info_file:
                 i += 1
                 print(f"{i}) {inf_file}")
-            response = input("Quel fichier souhaitez-vous analizer ?")
+            response = input("\nQuel fichier souhaitez-vous analizer ?")
             x = response.isdigit()
             if x:
                 response = int(response)
@@ -65,11 +67,26 @@ def select_csv_file():
     return select_file
 
 
+def get_max_price():
+    response = None
+    loop = True
+    while loop:
+        response = input("\nSaisissez le prix maximum que vous souhaitez inverstir : ")
+        x = response.isdigit()
+        if not x:
+            error_message(info_message="price_value_error")
+        else:
+            loop = False
+    return response
+
+
 def error_message(info_message=None, info_path=None):
     if info_message == "Error_Menu":
         print("Erreur ! Vous devez faire un choix entre les valeurs disponible dans le menu.")
     elif info_message == "Error_No_File":
         print(f"Erreur ! Aucun fichier csv n'est présent à l'emplacement suivant : {info_path}")
+    elif info_message == "price_value_error":
+        print("Erreur ! Vous devez saisir une valeur numérique.")
 
 
 show_menu()
