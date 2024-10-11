@@ -1,52 +1,26 @@
 import time
 import csv
 import os
-import sys
-
-start_time = time.time()
-path = os.getcwd()
-INPUT_DATA_CSV = "input_data.csv"
 
 
-def get_input_data():
-    """
-    Fonction qui permet d'extraire et retourner les informations d'un fichier csv.
-    Function that allows you to extract and return information from a csv file.
-    : return : info_data
-    """
-    csv_path = os.path.join(path, INPUT_DATA_CSV)
-    with open(csv_path, newline='') as csvfile:
-        reader = csv.DictReader(csvfile)
-        info_data = list(reader)
-        return info_data
+project_root = os.getcwd()
 
 
-def check_information_entered(all_data=None):
-    """
-    Fonction qui permet de contrôler que la valeur saisie dans le PriceMax est bien une valeur numérique et contrôle
-    que le nom du fichier saisi existe bien.
-    Function which allows you to check that the value entered in PriceMax is indeed a numeric value and checks that
-    the name of the file entered exists
-    : param : all_data
-    : return : file_name, price_max
-    """
-    price_max = all_data[0]['PriceMax']
-    file_name = all_data[0]["CsvFileName"]
+def start_bruteforce(csv_file_name=None, info_price_max=None):
+    start_time = time.time()
 
-    x = price_max.isdigit()
-    if not x:
-        print("Erreur constatée dans le champ PriceMax, veuillez saisir ")
-        print("une valeur numérique dans le fichier input_data.csv")
-        sys.exit()
+    list_csv1 = get_data_csv(csv_file_name)
+    list_csv2 = filter_positive_price_and_profit(list_csv1)
+    list_csv3 = add_value_csv(list_csv2)
+    list_csv4 = sort_list_data(list_csv3)
+    list_csv5 = optimize_identical_actions(list_csv4)
+    final_result = search_best_profit(list_csv5, info_price_max)
+    result = search_to_optimize_the_result(final_result[0], final_result[1])
+    show_result(result[0], result[1], result[2])
 
-    csv_path = os.path.join(path, file_name)
-    control_file = os.path.exists(csv_path)
-    if not control_file:
-        print(f"Le fichier {file_name} à analyser n'existe pas dans {path}, veuillez")
-        print("contrôler votre saisie dans input_data.csv")
-        sys.exit()
-
-    return file_name, price_max
+    end_time = time.time()
+    result_time = end_time - start_time
+    print(f"Temps d'exécution : {result_time} seconde(s)")
 
 
 def get_data_csv(file_name=None):
@@ -54,7 +28,7 @@ def get_data_csv(file_name=None):
     Fonction qui permet d'extraire les données du fichier Actions.csv.
     Function that extracts data from the Actions.csv file.
     """
-    csv_path = os.path.join(path, file_name)
+    csv_path = f"{project_root}/Data/{file_name}"
     with open(csv_path, newline='') as csvfile:
         reader = csv.DictReader(csvfile)
         list_actions = list(reader)
@@ -213,24 +187,3 @@ def show_result(list_action=None, total_price=None, result_profit=None):
     for l_action in list_action:
         print(f"{l_action['name']}: Coût: {l_action['price']} : Pourcentage: {l_action['profit']} "
               f": bénéfices: {l_action['result_profit']}")
-
-
-data_csv_file = get_input_data()
-data_csv2 = check_information_entered(data_csv_file)
-
-info_price_max = data_csv2[1]
-csv_file_name = data_csv2[0]
-
-list_csv1 = get_data_csv(csv_file_name)
-list_csv2 = filter_positive_price_and_profit(list_csv1)
-list_csv3 = add_value_csv(list_csv2)
-list_csv4 = sort_list_data(list_csv3)
-list_csv5 = optimize_identical_actions(list_csv4)
-final_result = search_best_profit(list_csv5, info_price_max)
-result = search_to_optimize_the_result(final_result[0], final_result[1])
-show_result(result[0], result[1], result[2])
-
-
-end_time = time.time()
-result_time = end_time - start_time
-print(f"Temps d'exécution : {result_time} seconde(s)")
