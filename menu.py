@@ -1,5 +1,6 @@
 import os
-
+import bruteforce_v2
+import sys
 project_root = os.getcwd()
 
 
@@ -20,18 +21,18 @@ def show_menu():
             if user_response == 1:
                 selected_file = select_csv_file()
                 info_price = get_max_price()
-                print("Fichier selectionné = ", selected_file)
-                print("Infor_price = ", info_price)
+                bruteforce_v2.start_bruteforce(selected_file, info_price)
             elif user_response == 2:
                 print("Choix 2 ok")
             elif user_response == 3:
                 print("Choix 3 ok")
             elif user_response == 4:
-                print("Choix 4 ok")
+                loop = False
             else:
                 error_message(info_message="Error_Menu")
         else:
             error_message(info_message="Error_Menu")
+    sys.exit()
 
 
 def select_csv_file():
