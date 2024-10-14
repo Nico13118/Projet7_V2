@@ -1,4 +1,5 @@
 from numba import jit
+import numpy as np
 
 
 def start_optimized_v2_functions(list_csv5=None, info_price_max=None):
@@ -14,7 +15,7 @@ def create_modify_table(pm, n, price, sum_result_profit):
     Function that creates a two-dimensional array, data is then calculated and placed in
     the array according to their value.
     """
-    t = [[0 for x in range(pm + 1)] for x in range(n + 1)]
+    t = np.zeros((n + 1, pm + 1))
     for i in range(n + 1):
         for p in range(pm + 1):
             if price[i - 1] <= p:
