@@ -47,8 +47,9 @@ def filter_positive_price_and_profit(data1):
     Fonction qui retourne les actions dont les valeurs de price et profit sont supérieures à 0.
     Function that returns stocks whose price and profit values are greater than 0.
     """
-    new_list = [c for c in data1 if float(c['price']) > 1]
-    new_list2 = [c for c in new_list if float(c['profit']) > 1]
+    new_list = [c for c in data1 if float(c['price']) > 0]
+    new_list2 = [c for c in new_list if float(c['profit']) > 0]
+    print()
     return new_list2
 
 
