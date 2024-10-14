@@ -1,5 +1,5 @@
 import os
-import bruteforce_v2
+import common_functions
 import sys
 project_root = os.getcwd()
 
@@ -21,11 +21,15 @@ def show_menu():
             if user_response == 1:
                 selected_file = select_csv_file()
                 info_price = get_max_price()
-                bruteforce_v2.start_bruteforce(selected_file, info_price)
+                common_functions.start_common_functions(selected_file, info_price, algorithm_name='bruteforce')
             elif user_response == 2:
-                print("Choix 2 ok")
+                selected_file = select_csv_file()
+                info_price = get_max_price()
+                common_functions.start_common_functions(selected_file, info_price, algorithm_name='optimized_v1')
             elif user_response == 3:
-                print("Choix 3 ok")
+                selected_file = select_csv_file()
+                info_price = get_max_price()
+                common_functions.start_common_functions(selected_file, info_price, algorithm_name='optimized_v2')
             elif user_response == 4:
                 loop = False
             else:
