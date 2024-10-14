@@ -47,12 +47,12 @@ def select_csv_file():
     while loop:
 
         if info_file:
-            print("-------Liste des fichiers à analizer-------")
+            print("-------Liste des fichiers à analyzer-------")
             i = 0
             for inf_file in info_file:
                 i += 1
                 print(f"{i}) {inf_file}")
-            response = input("\nQuel fichier souhaitez-vous analizer ?")
+            response = input("\nQuel fichier souhaitez-vous analyzer ?")
             x = response.isdigit()
             if x:
                 response = int(response)
