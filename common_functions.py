@@ -85,9 +85,9 @@ def sort_list_data(data3):
 def optimize_identical_actions(info_list=None):
     """
     Fonction qui permet de rechercher les actions qui ont le même prix et garde l'action qui a le meilleur
-    result_profit.
+    ratio.
     Function that allows you to search for stocks that have the same price and keep the stock that has the best
-    result_profit.
+    ratio.
     :param info_list
     :return new_list
     """
