@@ -2,7 +2,6 @@ import time
 import csv
 import os
 import bruteforce_v2
-import optimized_v1_action1
 import optimized_v2_action1
 project_root = os.getcwd()
 
@@ -19,8 +18,6 @@ def start_common_functions(csv_file_name=None, info_price_max=None, algorithm_na
 
     if algorithm_name == 'bruteforce':
         result = bruteforce_v2.start_bruteforce_functions(list_csv5, info_price_max)
-    elif algorithm_name == 'optimized_v1':
-        result = optimized_v1_action1.start_optimized_v1_functions(list_csv5, info_price_max)
     elif algorithm_name == 'optimized_v2':
         result = optimized_v2_action1.start_optimized_v2_functions(list_csv5, info_price_max)
     show_result(result[0], result[1], result[2])
