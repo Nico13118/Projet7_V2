@@ -1,81 +1,74 @@
 
 def start_bruteforce_functions(list_csv5=None, info_price_max=None):
     final_result = search_best_profit(list_csv5, info_price_max)
-    result = search_to_optimize_the_result(final_result[0], final_result[1])
-    return result
+    return final_result
+
+
+def calculate_the_sum_of_temp_total_price_list(price_list):
+    sum_of_prices = sum(price_list)
+    return sum_of_prices
+
+
+def calculate_the_sum_of_temp_total_result_profit_list(result_profit_list):
+    sum_of_result_profit = sum(result_profit_list)
+    return sum_of_result_profit
 
 
 def search_best_profit(full_list_actions=None, p_max=None):
     """
-    Fonction qui recherche les actions qui ont le meilleur bénéfice.
-    Function that searches for the stocks with the best profit.
+    Cette fonction crée des listes d'actions et conserve celle qui génère le meilleur bénéfice.
+    This function creates lists of actions and keeps the one that generates the highest profit.
     :param full_list_actions
     :param p_max
-    :return full_list_actions, list_actions
+    :return final_action_list, total_sum_price_list, total_result_profit
     """
-    total_price = 0
-    total_result_profit = 0
-    list_actions = []
-
     p_max = int(p_max)
-    list_index1 = list(range(0, len(full_list_actions)))
-    list_index2 = []
-    for i in list_index1:
-        list_index2.append(i)
-        info_price = [float(full_list_actions[c]['price']) for c in list_index2]
-        sum_price_actions = sum(info_price)
+    total_price_list = []
+    total_result_profit = 0
 
-        info_result_profit = [float(full_list_actions[c]['result_profit']) for c in list_index2]
-        sum_result_profit = sum(info_result_profit)
+    for n1 in full_list_actions:
+        price_n1 = float(n1['price'])
+        temp_total_price_list = []
+        temp_total_result_profit_list = []
 
-        if sum_price_actions <= p_max:
-            if sum_result_profit > total_result_profit:
-                info_action = full_list_actions[i]
-                list_actions.append(info_action)
-                total_price = sum_price_actions
-                total_result_profit = sum_result_profit
-        else:
-            del list_index2[-1]
-    return [full_list_actions, list_actions]
+        for n2 in full_list_actions:
+            price_n2 = float(n2['price'])
+            result_profit_n2 = float(n2['result_profit'])
 
+            if price_n2 != price_n1:
+                """
+                Ajout de price_n2 dans temp_total_price_list
+                Ajout de result_profit_n2 dans temp_total_result_profit_list
+                """
+                temp_total_price_list.append(price_n2)
+                temp_total_result_profit_list.append(result_profit_n2)
+                """
+                Calculer la somme temp_total_price_list.
+                """
+                total_sum_price_list = calculate_the_sum_of_temp_total_price_list(temp_total_price_list)
 
-def search_to_optimize_the_result(full_list_actions=None, list_selected_actions=None):
-    """
-    Fonction qui cherche à optimiser le résultat.
-    Function that seeks to optimize the result.
-    :param full_list_actions:
-    :param list_selected_actions:
-    :return temp_action_list, temp_total_price, temp_result_profit
-    """
-    temp_action_list = []
-    temp_total_price = 0
-    temp_result_profit = 0
-    """ Exclure les données list_selected_actions de full_list_actions"""
-    info_list3 = [c for c in full_list_actions if c not in list_selected_actions]
+                if total_sum_price_list > p_max:
+                    """ 
+                    Si le total est superieur au prix max, on retire les dernières valeurs ajouté dans les deux listes   
+                    """
+                    temp_total_price_list.pop(-1)
+                    temp_total_result_profit_list.pop(-1)
 
-    list_sorted = sorted(info_list3, key=lambda x: float(x['price']), reverse=True)
-    action_list_sorted = sorted(list_selected_actions, key=lambda x: float(x['price']), reverse=True)
+        """
+        Calculer la somme de temp_total_result_profit_list
+        """
+        total_sum_result_profit_list = calculate_the_sum_of_temp_total_result_profit_list(temp_total_result_profit_list)
 
-    for action in action_list_sorted:
-        info_result_profit = float(action['result_profit'])
+        if total_sum_result_profit_list > total_result_profit:
+            """
+            Si total_sum_result_profit_list est superieur à total_result_profit, on ajoute :
+            temp_total_price_list dans total_price_list.
+            total_sum_result_profit_list dans total_result_profit
+            """
+            total_price_list = temp_total_price_list
+            total_result_profit = total_sum_result_profit_list
 
-        result_list1 = [c for c in list_sorted if float(c['price']) < float(action['price'])]
-        list_sorted2 = sorted(result_list1, key=lambda x: float(x['result_profit']), reverse=True)
-        result_list2 = [c for c in list_sorted2 if float(c['result_profit']) > info_result_profit]
-        if result_list2:
-            action_select2 = result_list2[0]
-            if action_select2 not in temp_action_list:
-                temp_action_list.append(action_select2)
-                temp_total_price += float(action_select2['price'])
-                temp_result_profit += float(action_select2['result_profit'])
-                print(result_list2[0])
-            else:
-                temp_action_list.append(action)
-                temp_total_price += float(action['price'])
-                temp_result_profit += float(action['result_profit'])
-        else:
-            temp_action_list.append(action)
-            temp_total_price += float(action['price'])
-            temp_result_profit += float(action['result_profit'])
-    return [temp_action_list, temp_total_price, temp_result_profit]
+    final_action_list = [c for c in full_list_actions if float(c['price']) in total_price_list]
+    total_sum_price_list = calculate_the_sum_of_temp_total_price_list(total_price_list)
+    return [final_action_list, total_sum_price_list, total_result_profit]
 
