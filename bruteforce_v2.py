@@ -69,8 +69,7 @@ def search_best_profit(full_list_actions, p_max):
             temp_total_price_list dans total_price_list.
             total_sum_result_profit_list dans total_result_profit
             """
-            total_price_list = temp_total_price_list
-            total_result_profit = total_sum_result_profit_list
+            total_price_list, total_result_profit = temp_total_price_list, total_sum_result_profit_list
 
     final_action_list = [c for c in full_list_actions if float(c['price']) in total_price_list]
     total_sum_price_list = calculate_the_sum_of_list(total_price_list)
