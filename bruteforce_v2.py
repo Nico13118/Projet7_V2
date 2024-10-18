@@ -1,20 +1,15 @@
 
-def start_bruteforce_functions(list_csv5=None, info_price_max=None):
+def start_bruteforce_functions(list_csv5, info_price_max):
     final_result = search_best_profit(list_csv5, info_price_max)
     return final_result
 
 
-def calculate_the_sum_of_temp_total_price_list(price_list):
-    sum_of_prices = sum(price_list)
-    return sum_of_prices
+def calculate_the_sum_of_list(list_data):
+    total_sum = sum(list_data)
+    return total_sum
 
 
-def calculate_the_sum_of_temp_total_result_profit_list(result_profit_list):
-    sum_of_result_profit = sum(result_profit_list)
-    return sum_of_result_profit
-
-
-def search_best_profit(full_list_actions=None, p_max=None):
+def search_best_profit(full_list_actions, p_max):
     """
     Cette fonction crée des listes d'actions et conserve celle qui génère le meilleur bénéfice.
     This function creates lists of actions and keeps the one that generates the highest profit.
@@ -49,7 +44,7 @@ def search_best_profit(full_list_actions=None, p_max=None):
                 """
                 Calculer la somme temp_total_price_list.
                 """
-                total_sum_price_list = calculate_the_sum_of_temp_total_price_list(temp_total_price_list)
+                total_sum_price_list = calculate_the_sum_of_list(temp_total_price_list)
 
                 if total_sum_price_list > p_max:
                     """ 
@@ -61,7 +56,7 @@ def search_best_profit(full_list_actions=None, p_max=None):
         """
         Calculer la somme de temp_total_result_profit_list
         """
-        total_sum_result_profit_list = calculate_the_sum_of_temp_total_result_profit_list(temp_total_result_profit_list)
+        total_sum_result_profit_list = calculate_the_sum_of_list(temp_total_result_profit_list)
 
         if total_sum_result_profit_list > total_result_profit:
             """
@@ -73,6 +68,6 @@ def search_best_profit(full_list_actions=None, p_max=None):
             total_result_profit = total_sum_result_profit_list
 
     final_action_list = [c for c in full_list_actions if float(c['price']) in total_price_list]
-    total_sum_price_list = calculate_the_sum_of_temp_total_price_list(total_price_list)
+    total_sum_price_list = calculate_the_sum_of_list(total_price_list)
     return [final_action_list, total_sum_price_list, total_result_profit]
 
