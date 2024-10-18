@@ -22,8 +22,14 @@ def search_best_profit(full_list_actions, p_max):
     total_result_profit = 0
 
     for n1 in full_list_actions:
-        price_n1 = float(n1['price'])
-        result_profit_n1 = float(n1['result_profit'])
+        """
+        Cette boucle récupère la première actions.
+        Récupération de la valeur 'price' qu'on ajoute dans 'temp_total_price_list'
+        Récupération de la valeur 'result_profit' qu'on ajoute dans 'temp_total_result_profit_list'
+         
+        """
+        price_n1, result_profit_n1 = float(n1['price']), float(n1['result_profit'])
+
         temp_total_price_list = []
         temp_total_result_profit_list = []
 
@@ -31,8 +37,7 @@ def search_best_profit(full_list_actions, p_max):
         temp_total_result_profit_list.append(result_profit_n1)
 
         for n2 in full_list_actions:
-            price_n2 = float(n2['price'])
-            result_profit_n2 = float(n2['result_profit'])
+            price_n2, result_profit_n2 = float(n2['price']), float(n2['result_profit'])
 
             if price_n2 != price_n1:
                 """
