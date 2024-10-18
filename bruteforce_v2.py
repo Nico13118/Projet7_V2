@@ -4,11 +4,6 @@ def start_bruteforce_functions(list_csv5, info_price_max):
     return final_result
 
 
-def calculate_the_sum_of_list(list_data):
-    total_sum = sum(list_data)
-    return total_sum
-
-
 def search_best_profit(full_list_actions, p_max):
     """
     Cette fonction crée des listes d'actions et conserve celle qui génère le meilleur bénéfice.
@@ -49,7 +44,7 @@ def search_best_profit(full_list_actions, p_max):
                 """
                 Calculer la somme temp_total_price_list.
                 """
-                total_sum_price_list = calculate_the_sum_of_list(temp_total_price_list)
+                total_sum_price_list = sum(temp_total_price_list)
 
                 if total_sum_price_list > p_max:
                     """ 
@@ -61,7 +56,7 @@ def search_best_profit(full_list_actions, p_max):
         """
         Calculer la somme de temp_total_result_profit_list
         """
-        total_sum_result_profit_list = calculate_the_sum_of_list(temp_total_result_profit_list)
+        total_sum_result_profit_list = sum(temp_total_result_profit_list)
 
         if total_sum_result_profit_list > total_result_profit:
             """
@@ -72,6 +67,6 @@ def search_best_profit(full_list_actions, p_max):
             total_price_list, total_result_profit = temp_total_price_list, total_sum_result_profit_list
 
     final_action_list = [c for c in full_list_actions if float(c['price']) in total_price_list]
-    total_sum_price_list = calculate_the_sum_of_list(total_price_list)
+    total_sum_price_list = sum(total_price_list)
     return [final_action_list, total_sum_price_list, total_result_profit]
 
