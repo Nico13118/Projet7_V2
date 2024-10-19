@@ -18,12 +18,12 @@ def start_common_functions(csv_file_name=None, info_price_max=None, algorithm_na
     list_csv3 = add_value_csv(list_csv2)
     list_csv4 = sort_list_data(list_csv3)
     list_csv5 = optimize_identical_actions(list_csv4)
-
+    number_actions = len(list_csv5)
     if algorithm_name == 'bruteforce':
         result = bruteforce.generate_combination(list_csv5, info_price_max)
     elif algorithm_name == 'optimized_v2':
         result = optimized_v2_action1.start_optimized_v2_functions(list_csv5, info_price_max)
-    show_result(result[0], result[1], result[2], result[3], process)
+    show_result(result[0], result[1], result[2], result[3], process, csv_file_name, number_actions)
 
     end_time = time.time()
     result_time = end_time - start_time
@@ -105,7 +105,7 @@ def optimize_identical_actions(info_list=None):
     return new_list
 
 
-def show_result(list_action, total_price, result_profit, number_comb, info_process):
+def show_result(list_action, total_price, result_profit, number_comb, info_process, file_name, n_actions):
     """
     Fonction qui affiche le résultat.
     Function that displays the result.
@@ -114,8 +114,11 @@ def show_result(list_action, total_price, result_profit, number_comb, info_proce
     :param result_profit
     :param number_comb
     :param info_process
+    :param file_name
+    :param n_actions
     """
-    print("Liste des actions:")
+    print(f"\nNombre d'actions à analyser dans le fichier {file_name} : {n_actions}")
+    print("Liste des actions sélectionnées:")
     for l_action in list_action:
         print(f"{l_action['name']}: Coût: {l_action['price']} : Pourcentage: {l_action['profit']} "
               f": bénéfices: {l_action['result_profit']}")
