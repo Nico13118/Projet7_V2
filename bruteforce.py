@@ -2,12 +2,9 @@ from itertools import combinations
 
 
 def generate_combination(data_csv, p_max):
-    p_max = int(p_max)
-    n_data = len(data_csv)
+    p_max, n_data = int(p_max), len(data_csv)
     final_list = []
-    total_price = 0
-    total_result_profit = 0
-    number_combinations = 0
+    total_price, total_result_profit, number_combinations = 0, 0, 0
     for i in list(range(1, n_data)):
         result_comb = combinations(data_csv, i)
         for r_comb in result_comb:
