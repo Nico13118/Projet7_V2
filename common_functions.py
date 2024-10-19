@@ -1,14 +1,17 @@
 import time
 import csv
 import os
-import bruteforce_v2
+import bruteforce
 import optimized_v2_action1
+import psutil
+
 project_root = os.getcwd()
 
 
 def start_common_functions(csv_file_name=None, info_price_max=None, algorithm_name=None):
     result = None
     start_time = time.time()
+    process = psutil.Process(os.getpid())
 
     list_csv1 = get_data_csv(csv_file_name)
     list_csv2 = filter_positive_price_and_profit(list_csv1)
@@ -17,10 +20,10 @@ def start_common_functions(csv_file_name=None, info_price_max=None, algorithm_na
     list_csv5 = optimize_identical_actions(list_csv4)
 
     if algorithm_name == 'bruteforce':
-        result = bruteforce_v2.start_bruteforce_functions(list_csv5, info_price_max)
+        result = bruteforce.generate_combination(list_csv5, info_price_max)
     elif algorithm_name == 'optimized_v2':
         result = optimized_v2_action1.start_optimized_v2_functions(list_csv5, info_price_max)
-    show_result(result[0], result[1], result[2])
+    show_result(result[0], result[1], result[2], result[3], process)
 
     end_time = time.time()
     result_time = end_time - start_time
@@ -102,13 +105,15 @@ def optimize_identical_actions(info_list=None):
     return new_list
 
 
-def show_result(list_action=None, total_price=None, result_profit=None):
+def show_result(list_action, total_price, result_profit, number_comb, info_process):
     """
     Fonction qui affiche le résultat.
     Function that displays the result.
     :param list_action
     :param total_price
     :param result_profit
+    :param number_comb
+    :param info_process
     """
     print("Liste des actions:")
     for l_action in list_action:
@@ -116,3 +121,7 @@ def show_result(list_action=None, total_price=None, result_profit=None):
               f": bénéfices: {l_action['result_profit']}")
     print("Total d'achats:", total_price)
     print("Total des bénéfices:", result_profit)
+    print("Nombre total de combinaisons calculées : ", number_comb)
+    memory = info_process.memory_info().rss
+    memory_mb = memory / (1024 * 1024)
+    print(f"Utilisation de la mémoire : {memory_mb:.2f} Mo")
