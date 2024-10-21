@@ -37,12 +37,12 @@ def search_best_profit(full_list_actions, p_max):
                 result_profit_n2 = float(n2['result_profit'])
                 temp_total_result_profit_list.append(result_profit_n2)
                 """
-                Calculer la somme temp_total_price_list.
+                Calculer la somme temp_total_price_list afin de s'assurer qu'on ne dépasse pas le budget
                 """
                 total_sum_price_list = sum(temp_total_price_list)
                 if total_sum_price_list > p_max:
                     """ 
-                    Si le total est superieur au prix max, on retire les dernières valeurs ajouté dans les deux listes   
+                    Si le total dépasse le prix maximum, on retire les dernières valeurs ajoutées dans les deux listes.   
                     """
                     temp_total_price_list.pop(-1)
                     temp_total_result_profit_list.pop(-1)
@@ -52,9 +52,8 @@ def search_best_profit(full_list_actions, p_max):
         total_sum_result_profit_list = sum(temp_total_result_profit_list)
         if total_sum_result_profit_list > total_result_profit:
             """
-            Si total_sum_result_profit_list est superieur à total_result_profit, on ajoute :
-            temp_total_price_list dans total_price_list.
-            total_sum_result_profit_list dans total_result_profit
+            Si total_sum_result_profit_list est superieur à total_result_profit, on remplace la liste total_price_list
+            et la valeur total_result_profit
             """
             total_price_list, total_result_profit = temp_total_price_list, total_sum_result_profit_list
     final_action_list = [c for c in full_list_actions if float(c['price']) in total_price_list]
