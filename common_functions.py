@@ -2,6 +2,7 @@ import time
 import csv
 import os
 import bruteforce
+import optimized_v1
 import optimized_v2_action1
 import psutil
 
@@ -21,6 +22,8 @@ def start_common_functions(csv_file_name=None, info_price_max=None, algorithm_na
     number_actions = len(list_csv5)
     if algorithm_name == 'bruteforce':
         result = bruteforce.generate_combination(list_csv5, info_price_max)
+    elif algorithm_name == 'optimized_v1':
+        result = optimized_v1.search_best_profit(list_csv5, info_price_max)
     elif algorithm_name == 'optimized_v2':
         result = optimized_v2_action1.start_optimized_v2_functions(list_csv5, info_price_max)
     show_result(result[0], result[1], result[2], result[3], process, csv_file_name, number_actions)
