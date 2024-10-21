@@ -1,8 +1,4 @@
 
-def start_bruteforce_functions(list_csv5, info_price_max):
-    final_result = search_best_profit(list_csv5, info_price_max)
-    return final_result
-
 
 def search_best_profit(full_list_actions, p_max):
     """
@@ -15,6 +11,7 @@ def search_best_profit(full_list_actions, p_max):
     p_max = int(p_max)
     total_price_list = []
     total_result_profit = 0
+    number_combinations = 0
     for n1 in full_list_actions:
         """
         Cette boucle récupère la première actions.
@@ -22,6 +19,7 @@ def search_best_profit(full_list_actions, p_max):
         Récupération de la valeur 'result_profit' qu'on ajoute dans 'temp_total_result_profit_list'
          
         """
+        number_combinations += 1
         price_n1, result_profit_n1 = float(n1['price']), float(n1['result_profit'])
         temp_total_price_list, temp_total_result_profit_list = [], []
         temp_total_price_list.append(price_n1)
@@ -33,6 +31,7 @@ def search_best_profit(full_list_actions, p_max):
                 Ajout de price_n2 dans temp_total_price_list
                 Ajout de result_profit_n2 dans temp_total_result_profit_list
                 """
+                number_combinations += 1
                 temp_total_price_list.append(price_n2)
                 result_profit_n2 = float(n2['result_profit'])
                 temp_total_result_profit_list.append(result_profit_n2)
@@ -58,5 +57,5 @@ def search_best_profit(full_list_actions, p_max):
             total_price_list, total_result_profit = temp_total_price_list, total_sum_result_profit_list
     final_action_list = [c for c in full_list_actions if float(c['price']) in total_price_list]
     total_sum_price_list = sum(total_price_list)
-    return [final_action_list, total_sum_price_list, total_result_profit]
+    return [final_action_list, total_sum_price_list, total_result_profit, number_combinations]
 
