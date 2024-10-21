@@ -9,8 +9,9 @@ def show_menu():
     while loop:
         print("\n-------------Menu-------------")
         print("1) Algorithme BruteForce")
-        print("2) Algorithme Optimized")
-        print("3) Quitter")
+        print("2) Algorithme Optimized V1")
+        print("3) Algorithme Optimized V2")
+        print("4) Quitter")
         print("------------------------------")
         user_response = input("\nQuel est votre choix ? : ")
 
@@ -24,8 +25,12 @@ def show_menu():
             elif user_response == 2:
                 selected_file = select_csv_file()
                 info_price = get_max_price()
-                common_functions.start_common_functions(selected_file, info_price, algorithm_name='optimized_v2')
+                common_functions.start_common_functions(selected_file, info_price, algorithm_name='optimized_v1')
             elif user_response == 3:
+                selected_file = select_csv_file()
+                info_price = get_max_price()
+                common_functions.start_common_functions(selected_file, info_price, algorithm_name='optimized_v2')
+            elif user_response == 4:
                 loop = False
             else:
                 error_message(info_message="Error_Menu")
