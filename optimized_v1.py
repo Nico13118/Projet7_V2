@@ -17,11 +17,10 @@ def search_best_profit(full_list_actions, p_max):
         temp_total_price_list.append(float(n1['price']))
         temp_total_result_profit_list.append(float(n1['result_profit']))
         for n2 in full_list_actions:
+            number_combinations += 1  # Incrémenter le nombre de combinaisons
             if float(n2['price']) != float(n1['price']):
-                number_combinations += 1  # Incrémenter le nombre de combinaisons
                 temp_total_price_list.append(float(n2['price']))
-                result_profit_n2 = float(n2['result_profit'])
-                temp_total_result_profit_list.append(result_profit_n2)
+                temp_total_result_profit_list.append(float(n2['result_profit']))
                 # Si la somme dépasse le prix max
                 if sum(temp_total_price_list) > p_max:
                     # Retirer les dernières valeurs ajoutées pour respecter le budget
