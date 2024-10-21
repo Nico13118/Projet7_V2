@@ -10,52 +10,28 @@ def search_best_profit(full_list_actions, p_max):
     """
     p_max = int(p_max)
     total_price_list = []
-    total_result_profit = 0
-    number_combinations = 0
+    total_result_profit, number_combinations = 0, 0
     for n1 in full_list_actions:
-        """
-        Cette boucle récupère la première actions.
-        Récupération de la valeur 'price' qu'on ajoute dans 'temp_total_price_list'
-        Récupération de la valeur 'result_profit' qu'on ajoute dans 'temp_total_result_profit_list'
-         
-        """
-        number_combinations += 1
-        price_n1, result_profit_n1 = float(n1['price']), float(n1['result_profit'])
+        number_combinations += 1  # Incrémenter le nombre de combinaisons
         temp_total_price_list, temp_total_result_profit_list = [], []
-        temp_total_price_list.append(price_n1)
-        temp_total_result_profit_list.append(result_profit_n1)
+        temp_total_price_list.append(float(n1['price']))
+        temp_total_result_profit_list.append(float(n1['result_profit']))
         for n2 in full_list_actions:
-            price_n2 = float(n2['price'])
-            if price_n2 != price_n1:
-                """
-                Ajout de price_n2 dans temp_total_price_list
-                Ajout de result_profit_n2 dans temp_total_result_profit_list
-                """
-                number_combinations += 1
-                temp_total_price_list.append(price_n2)
+            if float(n2['price']) != float(n1['price']):
+                number_combinations += 1  # Incrémenter le nombre de combinaisons
+                temp_total_price_list.append(float(n2['price']))
                 result_profit_n2 = float(n2['result_profit'])
                 temp_total_result_profit_list.append(result_profit_n2)
-                """
-                Calculer la somme temp_total_price_list afin de s'assurer qu'on ne dépasse pas le budget
-                """
-                total_sum_price_list = sum(temp_total_price_list)
-                if total_sum_price_list > p_max:
-                    """ 
-                    Si le total dépasse le prix maximum, on retire les dernières valeurs ajoutées dans les deux listes.   
-                    """
+                # Si la somme dépasse le prix max
+                if sum(temp_total_price_list) > p_max:
+                    # Retirer les dernières valeurs ajoutées pour respecter le budget
                     temp_total_price_list.pop(-1)
                     temp_total_result_profit_list.pop(-1)
-        """
-        Calculer la somme de temp_total_result_profit_list
-        """
         total_sum_result_profit_list = sum(temp_total_result_profit_list)
+        # Si la somme de total_sum_result_profit_list et superieur
         if total_sum_result_profit_list > total_result_profit:
-            """
-            Si total_sum_result_profit_list est superieur à total_result_profit, on remplace la liste total_price_list
-            et la valeur total_result_profit
-            """
+            # Remplacer les anciènes valeurs de total_price_list et total_result_profit
             total_price_list, total_result_profit = temp_total_price_list, total_sum_result_profit_list
     final_action_list = [c for c in full_list_actions if float(c['price']) in total_price_list]
-    total_sum_price_list = sum(total_price_list)
-    return [final_action_list, total_sum_price_list, total_result_profit, number_combinations]
+    return [final_action_list, sum(total_price_list), total_result_profit, number_combinations]
 
