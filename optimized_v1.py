@@ -27,13 +27,14 @@ def search_best_profit(full_list_actions, p_max):
         temp_total_price_list.append(price_n1)
         temp_total_result_profit_list.append(result_profit_n1)
         for n2 in full_list_actions:
-            price_n2, result_profit_n2 = float(n2['price']), float(n2['result_profit'])
+            price_n2 = float(n2['price'])
             if price_n2 != price_n1:
                 """
                 Ajout de price_n2 dans temp_total_price_list
                 Ajout de result_profit_n2 dans temp_total_result_profit_list
                 """
                 temp_total_price_list.append(price_n2)
+                result_profit_n2 = float(n2['result_profit'])
                 temp_total_result_profit_list.append(result_profit_n2)
                 """
                 Calculer la somme temp_total_price_list.
