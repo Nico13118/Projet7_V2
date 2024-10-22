@@ -15,7 +15,7 @@ def generate_combination(data_csv, p_max):
                 if action_price <= p_max:
                     action_result_profit = float(r_comb['result_profit'])
                     if action_result_profit > total_result_profit:
-                        final_list, action_price, total_result_profit = [r_comb], total_price, action_result_profit
+                        final_list, total_price, total_result_profit = [r_comb], action_price, action_result_profit
             else:
                 action_price = [float(c['price']) for c in r_comb]
                 if sum(action_price) <= p_max:
