@@ -5,8 +5,8 @@ def generate_combination(data_csv, p_max):
     p_max, n_data = int(p_max), len(data_csv)
     final_list = []
     total_price, total_result_profit, number_combinations = 0.0, 0.0, 0
-    for i in list(range(1, n_data)):
-        result_comb = combinations(data_csv, i)
+    for x in list(range(1, n_data)):
+        result_comb = combinations(data_csv, x)
         for r_comb in result_comb:
             number_combinations += 1
             if len(r_comb) == 1:
