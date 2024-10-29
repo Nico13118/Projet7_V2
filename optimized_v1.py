@@ -10,7 +10,7 @@ def search_best_profit(full_list_actions, p_max):
     """
     p_max = int(p_max)
     total_price_list = []
-    total_result_profit, number_combinations = 0, 0
+    total_result_profit, number_combinations = 0.0, 0
     for n1 in full_list_actions:
         number_combinations += 1  # Incrémenter le nombre de combinaisons
         temp_total_price_list, temp_total_result_profit_list = [], []
